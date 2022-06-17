@@ -23,14 +23,14 @@ def river_sizes(matrix):
     # add traversed nodes to closed set (visited)
     # >return count, not grouping
 
-    closed_set = []  # visited
+    closed_set = []  # visited nodes
     connected_node_list = []
     # for each element in matrix
     for i, each_row in enumerate(matrix):
         for j, each_index in enumerate(each_row):
 
             # exclude visited and incorrect value (0)
-            if (j, i) not in closed_set and matrix[i][j] == 1:
+            if (j, i) not in closed_set and each_index == 1:  # (x, y) == (j, i)
                 dfs_stack = [(j, i)]  # seed
                 connected_nodes = [(j, i)]  # seed
 
@@ -199,6 +199,8 @@ matrix_test_10 = [
 matrix_test_10_answer = [1, 1, 2, 6, 10]
 
 
+# create and run tests
+
 test_dict = {}
 answer_dict = {}
 for each_global in globals().copy().items():
@@ -207,12 +209,11 @@ for each_global in globals().copy().items():
     elif "matrix_test_" in each_global[0]:
         test_dict[each_global[0]] = each_global[1]
 
-# print(test_dict)
-# print(answer_dict)
-
 for each_test in test_dict.items():
     output = river_sizes(each_test[1])
     expected = answer_dict[each_test[0] + "_answer"]
-    print(each_test[0] + f"\n\toutput:   {output}\n\texpected: {expected}", )
+    result = lambda x, y: "PASS" if x == y else "FAIL"  # noqa
+    print(each_test[0] + f": {result(output, expected)}"
+                         f"\n\toutput: {output}"
+                         f"\n\texpected: {expected}", )
     assert output == expected
-    print("\tPASS")
