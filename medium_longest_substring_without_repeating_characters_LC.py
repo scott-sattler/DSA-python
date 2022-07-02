@@ -67,6 +67,7 @@ class Solution:
 
     # first solution
     def old_01_lengthOfLongestSubstring(self, s: str) -> int:  # noqa (name)
+        """ Runtime: 775 ms | Memory Usage: 14.2 MB """
         # iterate over string
         # hash char into dictionary
         # if char exists
