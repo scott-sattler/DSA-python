@@ -158,6 +158,16 @@ class Test(Solution):
             ):  [1],
 
             hf.list_to_dict_key(
+                [[0, 1], [1]],
+                selector="two-nested"
+            ):  [1, 1],
+
+            hf.list_to_dict_key(
+                [[1], [0, 1]],
+                selector="two-nested"
+            ):  [1, 1],
+
+            hf.list_to_dict_key(
                 [[1], [0]],
                 selector="two-nested"
             ):  [1],
