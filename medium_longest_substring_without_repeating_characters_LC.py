@@ -143,7 +143,7 @@ class Test(Solution):
 
     }
 
-    def test_all(self):
+    def test_all(self) -> None:
         for each_item in self.test_dict.items():
             try:
                 assert self.lengthOfLongestSubstring(each_item[0]) == each_item[1]
