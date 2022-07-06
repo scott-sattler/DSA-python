@@ -30,6 +30,7 @@ Notes:
 
 from __future__ import annotations
 from typing import Optional
+import helper_functions as hf
 
 
 # Definition for singly-linked list.
@@ -38,16 +39,6 @@ class ListNode:
     def __init__(self, val=0, next=None):  # noqa (next shadows built-in name)
         self.val = val
         self.next = next
-
-    # nested implies recursion
-    def create_list(self, number: list) -> ListNode | None:  # 3.11 -> Self
-        node = ListNode()
-        if len(number) == 0:
-            return None
-
-        node.val = number.pop(0)
-        node.next = self.create_list(number)
-        return node
 
 
 class Solution:
@@ -96,6 +87,16 @@ class Solution:
     # second attempt (combining iteration and recursion) was abandoned
 
     # first attempt; O(n3)?
+    # nested implies recursion
+    def create_list(self, number: list) -> ListNode | None:  # 3.11 -> Self
+        node = ListNode()
+        if len(number) == 0:
+            return None
+
+        node.val = number.pop(0)
+        node.next = self.create_list(number)
+        return node
+
     def first_attempt_addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # iterate over each list serially
         #   multiply by order of magnitude
@@ -124,7 +125,31 @@ class Solution:
 
         total = first_total + second_total
 
-        return ListNode().create_list([i for i in str(total)[::-1]])
+        return self.create_list([i for i in str(total)[::-1]])
 
 
+class Test(Solution):
 
+    tests = \
+        {
+            hf.list_to_dict_key(
+                [[2, 4, 3], [5, 6, 4]],  # l1 l2 list input
+                selector="two-nested"
+            ):  [7, 0, 8],               # linked list output
+            hf.list_to_dict_key(
+                [[9, 9, 9], [9]],
+                selector="two-nested"
+            ):  [8, 0, 0, 1],
+            hf.list_to_dict_key(
+                [[], []],
+                selector="two-nested"
+            ):  [],
+        }
+
+
+t = Test()
+
+foo = Solution().addTwoNumbers(l1=hf.create_linked_list(list(t.tests.items())[2][0][0]),
+                               l2=hf.create_linked_list(list(t.tests.items())[2][0][1]))
+
+hf.print_linked_list(foo)
