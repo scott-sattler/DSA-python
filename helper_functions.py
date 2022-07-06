@@ -11,7 +11,7 @@ class ListNode:
 
 
 # nested implies recursion
-def create_linked_list(number: list) -> ListNode | None:  # 3.11 -> Self
+def create_linked_list(number: list | tuple) -> ListNode | None:  # 3.11 -> Self
     if not isinstance(number, list):
         number = list(number)
 
@@ -24,7 +24,7 @@ def create_linked_list(number: list) -> ListNode | None:  # 3.11 -> Self
     return node
 
 
-def print_linked_list(linked_list: ListNode):
+def print_linked_list(linked_list: ListNode) -> None:
     node = linked_list
     print_list = ['reversed order']
     while node is not None:
@@ -33,7 +33,16 @@ def print_linked_list(linked_list: ListNode):
     print(print_list)
 
 
-def list_to_dict_key(key: list, selector: Optional[str] = None):
+def ll_to_non_ll(linked_list: ListNode) -> list:
+    node = linked_list
+    normal_list = []
+    while node is not None:
+        normal_list.append(node.val)
+        node = node.next
+    return normal_list
+
+
+def list_to_dict_key(key: list, selector: Optional[str] = None) -> tuple[tuple, tuple]:
     is_nested = False
     for each_element in key:
         if isinstance(key, list):
