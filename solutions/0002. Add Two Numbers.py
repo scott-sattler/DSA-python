@@ -33,9 +33,6 @@ from typing import Optional
 
 
 # Definition for singly-linked list.
-import helper_functions
-
-
 class ListNode:
     # Provided
     def __init__(self, val=0, next=None):  # noqa (next shadows built-in name)
@@ -55,7 +52,7 @@ class ListNode:
 
 class Solution:
     # third attempt (after learning how to use linked lists)
-    # it is not clear how to solve in O(n) without recursion
+    # it is unclear how to solve in O(n) without recursion
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # traverse linked list recursively
         #   concurrently add indices to linked list
@@ -78,6 +75,7 @@ class Solution:
             second_list_digit = l2.val
             l2_arg = l2.next
 
+        # two-digit cases
         total = first_list_digit + second_list_digit
         if total > 9:
             linked_list.val = total - 10
@@ -99,11 +97,11 @@ class Solution:
 
     # first attempt; O(n3)?
     def first_attempt_addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa
-        # iterate over each list in serial
-        #   add indices
+        # iterate over each list serially
         #   multiply by order of magnitude
-        #   add to total
-        # add the two totals
+        #   add to subtotal
+        # combine the two totals
+        # reverse and construct linked list
         # >return linked list
 
         first_total = i = digit = 0
@@ -127,3 +125,6 @@ class Solution:
         total = first_total + second_total
 
         return ListNode().create_list([i for i in str(total)[::-1]])
+
+
+
