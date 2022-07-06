@@ -33,9 +33,9 @@ from typing import Optional
 import helper_functions as hf
 
 
+# Provided
 # Definition for singly-linked list.
 class ListNode:
-    # Provided
     def __init__(self, val=0, next=None):  # noqa (next shadows built-in name)
         self.val = val
         self.next = next
@@ -43,7 +43,7 @@ class ListNode:
 
 class Solution:
     # third attempt (after learning how to use linked lists)
-    # it is unclear how to solve in O(n) without recursion
+    # unclear how to solve in O(n) without recursion
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # traverse linked list recursively
         #   concurrently add indices to linked list
@@ -86,7 +86,7 @@ class Solution:
 
     # second attempt (combining iteration and recursion) was abandoned
 
-    # first attempt; O(n3)?
+    # first attempt
     # nested implies recursion
     def create_list(self, number: list) -> ListNode | None:  # 3.11 -> Self
         node = ListNode()
@@ -97,6 +97,7 @@ class Solution:
         node.next = self.create_list(number)
         return node
 
+    # first attempt; O(n3)?
     def first_attempt_addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # iterate over each list serially
         #   multiply by order of magnitude
@@ -129,27 +130,68 @@ class Solution:
 
 
 class Test(Solution):
-
     tests = \
         {
             hf.list_to_dict_key(
                 [[2, 4, 3], [5, 6, 4]],  # l1 l2 list input
                 selector="two-nested"
-            ):  [7, 0, 8],               # linked list output
+            ):  [7, 0, 8],  # linked list output
+
             hf.list_to_dict_key(
                 [[9, 9, 9], [9]],
                 selector="two-nested"
             ):  [8, 0, 0, 1],
+
             hf.list_to_dict_key(
-                [[], []],
+                [[9], [9]],
                 selector="two-nested"
-            ):  [],
+            ):  [8, 1],
+
+            hf.list_to_dict_key(
+                [[0], [0]],
+                selector="two-nested"
+            ):  [0],
+
+            hf.list_to_dict_key(
+                [[0], [1]],
+                selector="two-nested"
+            ):  [1],
+
+            hf.list_to_dict_key(
+                [[1], [0]],
+                selector="two-nested"
+            ):  [1],
+
+            hf.list_to_dict_key(
+                [[0 for i0 in range(99)] + [1], [0 for j0 in range(99)] + [1]],
+                selector="two-nested"
+            ):  [0 for k0 in range(99)] + [2],
+
+            hf.list_to_dict_key(
+                [[1 for i1 in range(100)], [1 for j1 in range(100)]],
+                selector="two-nested"
+            ):  [2 for k1 in range(100)],
+
         }
 
+    def test_all(self) -> None:
+        for each_test in self.tests.items():
+            test_input = each_test[0]
+            expected_output = hf.create_linked_list(each_test[1].copy())
+            expected_output_num = ''.join([str(i) for i in each_test[1]])
+            test_output = Solution().addTwoNumbers(
+                l1=hf.create_linked_list(test_input[0]),
+                l2=hf.create_linked_list(test_input[1])
+            )
+            test_output_num = ''.join([str(i) for i in hf.ll_to_non_ll(test_output)])
+            try:
+                # assert test_output == expected_output
+                assert test_output_num == expected_output_num
+                print(f"PASS \t {each_test}")
+            except AssertionError:
+                print(f"FAIL on {each_test}\n"
+                      f"\t test_output: \t\t {hf.ll_to_non_ll(test_output)}\n"
+                      f"\t expected_output: \t {hf.ll_to_non_ll(expected_output)}")
 
-t = Test()
 
-foo = Solution().addTwoNumbers(l1=hf.create_linked_list(list(t.tests.items())[2][0][0]),
-                               l2=hf.create_linked_list(list(t.tests.items())[2][0][1]))
-
-hf.print_linked_list(foo)
+Test().test_all()
