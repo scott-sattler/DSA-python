@@ -1,3 +1,3 @@
 # Data Structures and Algorithms in Python
 
-"easy" problems are usually not commented
+"easy" problems are not often commented
