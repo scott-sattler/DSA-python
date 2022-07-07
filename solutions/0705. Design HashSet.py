@@ -26,7 +26,7 @@ Explanation
 
 Constraints:
     0 <= key <= 10^6
-    At most 104 calls will be made to add, remove, and contains.
+    At most 10^4 calls will be made to add, remove, and contains.
 """
 
 # Your MyHashSet object will be instantiated and called as such:
@@ -36,8 +36,24 @@ Constraints:
 # param_3 = obj.contains(key)
 
 
+# fourth attempt (reread directions: no built-ins); unoptimized
+class MyHashSet:  # noqa
+
+    def __init__(self):
+        self.hash_set = [False] * (10 ** 6 + 1)
+
+    def add(self, key: int) -> None:
+        self.hash_set[key] = True
+
+    def remove(self, key: int) -> None:
+        self.hash_set[key] = False
+
+    def contains(self, key: int) -> bool:
+        return self.hash_set[key]
+
+
 # third attempt (optimized)
-class MyHashSet:
+class third_attempt_MyHashSet:  # noqa
 
     def __init__(self):
         # sets are immutable
