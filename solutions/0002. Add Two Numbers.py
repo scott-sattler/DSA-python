@@ -199,7 +199,7 @@ class Test(Solution):
                 assert test_output_num == expected_output_num
                 print(f"PASS \t {each_test}")
             except AssertionError:
-                print(f"FAIL on {each_test}\n"
+                print(f"FAIL \t {each_test}\n"
                       f"\t test_output: \t\t {hf.ll_to_non_ll(test_output)}\n"
                       f"\t expected_output: \t {hf.ll_to_non_ll(expected_output)}")
 
