@@ -1,4 +1,7 @@
 """
+4. Median of Two Sorted Arrays
+Hard
+
 Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 
 The overall run time complexity should be O(log (m+n)).
@@ -23,27 +26,22 @@ Constraints:
     -10^6 <= nums1[i], nums2[i] <= 10^6
 """
 
+from __future__ import annotations
+
+import math
 import random as rdm
+
+"""
+Notes:
+
+binary search is also known as: half-interval search, logarithmic search, or binary chop
+https://en.wikipedia.org/wiki/Binary_search_algorithm
+"""
 
 
 class Solution:
     def findMedianSortedArrays(self, nums1: list[int], nums2: list[int]) -> float:  # noqa
-        brute_list = sorted(nums1 + nums2)
-
-        def median(nums):
-            if len(nums) % 2 == 0:
-                nums_median = (nums[len(nums) // 2 - 1] + nums[len(nums) // 2]) / 2
-            else:
-                nums_median = nums[len(nums) // 2]
-            return nums_median
-
-        nums_median_1 = median(nums1)
-        nums_median_2 = median(nums2)
-
-        while True:
-            break
-
-        return median(brute_list)
+        pass
 
 
 class Test(Solution):
@@ -52,33 +50,76 @@ class Test(Solution):
 
     tests = \
         {
-            str([[1, 3], [2]]): 2.00000,
+            str([
+                [1, 3],
+                [2]
+            ]): 2.00000,
 
-            str([[1, 2], [3, 4]]): 2.50000,
+            str([
+                [1, 2],
+                [3, 4]
+            ]): 2.50000,
 
-            str([[1, 2, 3], [1, 2, 3]]): 2.0,
+            str([
+                [1],
+                [0]
+            ]): 0.5,
 
-            str([[1, 1, 1], [2, 2, 2]]): 1.5,
+            str([
+                [1, 2, 3],
+                [1, 2, 3]
+            ]): 2.0,
 
-            str([[1, 1, 1, 1, 1], [5]]): 1.0,
+            str([
+                [1, 1, 1],
+                [2, 2, 2]
+            ]): 1.5,
 
-            str([[1, 1, 1, 1, 1, 1, 1, 1], [5, 5, 5]]): 1.1,  # 1.0
+            str([
+                [1, 1, 1, 1, 1],
+                [5]
+            ]): 1.0,
 
-            str(
-                [
-                    sorted(rdm.randint(0, 1_000) for i in range(first_list_elements)),
-                    sorted(rdm.randint(0, 1_000) for j in range(second_list_elements))
-                ]
-            ): None,
+            str([
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [5, 5, 5]
+            ]): 1.0,
+
+            # str([
+            #         sorted(rdm.randint(0, 1_000) for i in range(first_list_elements)),
+            #         sorted(rdm.randint(0, 1_000) for j in range(second_list_elements))
+            #     ]): None,
+
+            str([
+                [5, 7, 7, 16, 19, 19, 19, 25, 45, 46, 49, 53],
+                [0, 1, 3, 3, 5, 5, 5, 5, 5, 5, 6, 6, 6, 7, 7]
+            ]): 6.0,
+
+            str([
+                [1, 3, 4, 7, 8,     16, 18, 19, 25, 45,     46, 49, 53],
+                [0, 1, 2, 3, 4,     5, 6, 7, 8, 9,          10, 11, 12]
+            ]): 8.0,
+
+            str([
+                [1, 3, 4, 6, 7,     16, 18, 19, 25, 45,     46, 49, 53],
+                [0, 1, 2, 3, 4,     5, 6, 7, 7, 9,          10, 11, 12]
+            ]): None,  # 7.0
 
         }
+
+    # tests = {k: v for k, v in tests.items() if v == 6.0}
+    # tests = {k: v for k, v in tests.items() if v == 2.0}
+    # tests = {k: v for k, v in tests.items() if v == 8.0}
+    # tests = {k: v for k, v in tests.items() if v is None}
+    # tests = {k: v for k, v in tests.items() if v == 2.5}
+    tests = {k: v for k, v in tests.items() if v == 1.0}
 
     @staticmethod
     # informally verified for correctness
     def get_answer(nums1: list[int], nums2: list[int]) -> float:
         brute_list = sorted(nums1 + nums2)
 
-        def median(nums):
+        def median(nums) -> float:
             if len(nums) % 2 == 0:
                 nums_median = (nums[len(nums) // 2 - 1] + nums[len(nums) // 2]) / 2
             else:

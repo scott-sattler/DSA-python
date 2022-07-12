@@ -1,4 +1,7 @@
 """
+705. Design HashSet
+Easy
+
 Design a HashSet without using any built-in hash table libraries.
 
 Implement MyHashSet class:
