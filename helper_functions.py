@@ -10,7 +10,6 @@ class ListNode:
         self.next = next
 
 
-# nested implies recursion
 def create_linked_list(number: list | tuple) -> ListNode | None:  # 3.11 -> Self
     if not isinstance(number, list):
         number = list(number)
