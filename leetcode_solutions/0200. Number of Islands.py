@@ -56,7 +56,7 @@ class Solution:
                 if grid[seed_node[0]][seed_node[1]] == '0':
                     explored_nodes[seed_node] = True
                     continue
-                if not explored_nodes.get(seed_node, False):
+                if seed_node not in explored_nodes:
                     found_nodes = [seed_node]  # seed
                     island_nodes = []
 
