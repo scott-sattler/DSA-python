@@ -37,21 +37,25 @@ import test_cases
 
 class Solution:
     # first attempt
+    # added minor optimizations: early seed check and hash lookup
     def numIslands(self, grid: list[list[str]]) -> int:  # noqa
         # island defined as land surrounded by water
-        #   1 with 0s NSEW
+        #   i.e.: find 1s surrounded by 0s (NSEW checks)
         # DFS grid traversal
+        # optimizations:
+        #   early seed exclusion
+        #   hash lookup
 
         count = 0
-        explored_nodes = []
+        explored_nodes = {}
 
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 seed_node = (i, j)
                 if grid[seed_node[0]][seed_node[1]] == '0':
-                    explored_nodes.append(seed_node)
+                    explored_nodes[seed_node] = True
                     continue
-                if seed_node not in explored_nodes:
+                if not explored_nodes.get(seed_node, False):
                     found_nodes = [seed_node]  # seed
                     island_nodes = []
 
@@ -66,11 +70,10 @@ class Solution:
                                 if each_node not in explored_nodes:
                                     found_nodes.append(each_node)
 
-                        explored_nodes.append(inspected_node)
+                        explored_nodes[inspected_node] = True
 
                     if len(island_nodes) > 0:
                         count += 1
-                        print(count)
 
         return count
 
@@ -123,16 +126,21 @@ class Test(Solution):
     example_test_2_output = 3
     tests.append((example_test_2, example_test_2_output))
 
-    tests.append((test_cases.failed_test_0, 0))
+    failed_test_0_output = 109
+    tests.append((test_cases.failed_test_0, failed_test_0_output))
 
-    def test_all(self, include: list[int] | None = None):
+    def test_all(self, include: list[int] | str = 'all'):
+        tests_ran = 0
+        tests_passed = 0
         for each_test in self.tests:
-            if include is not None and self.tests.index(each_test) not in include:
+            if include != 'all' and self.tests.index(each_test) not in include:
                 continue
             output = self.numIslands(each_test[0])
             expected_output = each_test[1]
             try:
+                tests_ran += 1
                 assert output == expected_output
+                tests_passed += 1
                 print("PASS", end="")
             except AssertionError:
                 print("FAIL", end="")
@@ -143,8 +151,9 @@ class Test(Solution):
                       f"\t\t expd_out: {expected_output}\n"
                       f"\t\t test_out: {output}\n")
 
+        print("Testing Summary:")
+        print("\t" + str(tests_ran), "tests_ran")
+        print("\t" + str(tests_passed), "tests_passed")
 
-Test().test_all(include=[2])
-
-# foo = Test().discover_nodes(Test().tests[0][0], (1, 1))
-# print(foo)
+# Test().test_all(include=[2])
+Test().test_all(include='all')
