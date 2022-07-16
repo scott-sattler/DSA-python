@@ -80,7 +80,7 @@ class Solution:
 
     # find boundary-checked nodes
     @staticmethod
-    def find_nodes(grid: list[list], element: tuple[int, int], ) -> list[tuple[int, int]]:
+    def find_nodes(grid: list[list], element: tuple[int, int]) -> list[tuple[int, int]]:
         discovered_nodes = []
         # cardinal directions: NSEW
         north_node = (element[0] - 1, element[1])
@@ -130,7 +130,7 @@ class Test(Solution):
     failed_test_0_output = 109
     tests.append((test_cases.failed_test_0, failed_test_0_output))
 
-    def test_all(self, include: list[int] | str = 'all'):
+    def test_all(self, include: list[int] | str = 'all') -> None:
         tests_ran = 0
         tests_passed = 0
         for each_test in self.tests:
