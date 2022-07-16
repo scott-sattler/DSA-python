@@ -24,6 +24,12 @@ Constraints:
 
 class Solution:
     def longestCommonPrefix(self, strs: list[str]) -> str:  # noqa
+        # populate reference value
+        # iterate over entire list
+        #  compare reference to each str
+        #  assign reference LCP
+        # return longest prefix
+
         reference = strs.pop(0)
         lcp = reference
         for each_str in strs:
