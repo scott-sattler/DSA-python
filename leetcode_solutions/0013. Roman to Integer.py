@@ -60,15 +60,10 @@ class Solution:
     }
 
     def romanToInt(self, s: str) -> int:  # noqa
-        # read left to right
-        # add sub-values
-        # subtraction: smaller value precedes a larger value
-        #  ->look forward 1
-        # return: total
-
         # solution:
         # iterate over string chars
-        # look forward 1 for subtraction
+        # look forward 1 for subtraction:
+        #   when smaller value precedes a larger value
         # running total of lookup values
         # return: running total
 
