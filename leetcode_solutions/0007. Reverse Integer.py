@@ -55,7 +55,7 @@ class Solution:
                     break
                 elif each_digit < str(max_val)[i] or i == (len(reversed_int) - 1):
                     return int(reversed_int) if x > 0 else -int(reversed_int)
-                # can ignore +- differences due to input constraint
+                # can ignore sign boundary differences due to input constraint
                 elif each_digit == str(max_val)[i]:
                     continue
 
