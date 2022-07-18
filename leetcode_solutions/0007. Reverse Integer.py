@@ -52,7 +52,7 @@ class Solution:
         return 0
 
     # solve for correctness
-    # incorrect solution: environment does not 64-bit int storage
+    # incorrect solution: environment disallows 64-bit int storage
     def first_attempt_reverse(self, x: int) -> int:  # noqa
         sign = 1
         if x < 1:
