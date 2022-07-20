@@ -68,7 +68,9 @@ Constraints:
 
 Notes:
     Instructions unclear... do we parse numbers with leading words, or...
-    s = min(max(s, lower_bound), upper_bound): slower, but looks cool
+    s = min(max(s, lower_bound), upper_bound): slower, but looks neat
+    obvious tests, '', ' ', and float were lazily not included until failure
+    percentile ranking wildly fluctuates with identical code ran seconds apart
 """
 
 
@@ -90,7 +92,7 @@ class Solution:
         elif s[0] == '+':
             s = s[1:]
 
-        # right strip
+        # right strip non-digits
         if not s.isdigit():
             for i, each_char in enumerate(s):
                 if not each_char.isdigit():
@@ -110,6 +112,51 @@ class Solution:
             s = lower_bound
         elif s > upper_bound:
             s = upper_bound
+
+        return s
+
+    # second attempt: experimentation/optimization
+    def second_attempt_myAtoi(self, s: str) -> int:  # noqa
+        # left whitespace strip
+        if s:
+            for i, each_char in enumerate(s):
+                if each_char != ' ':
+                    s = s[i:]
+                    break
+
+        # valid string check
+        if not s:
+            return 0
+
+        # sign assignment
+        sign = 1
+        if s[0] == '-':
+            sign = -1
+            s = s[1:]
+        elif s[0] == '+':
+            s = s[1:]
+
+        # right strip non-digits
+        if not s.isdigit():  # isdigit() uses C standard library
+            for i, each_char in enumerate(s):
+                if not each_char.isdigit():
+                    s = s[:i]
+                    break
+
+        # convert to signed int
+        if s == '' or not s[0].isdigit():
+            s = 0
+        else:
+            s = sign * int(float(s))
+
+        # clamp boundaries
+        lower_bound = -2 ** 31
+        if s < lower_bound:
+            s = lower_bound
+        else:
+            upper_bound = (-1 * lower_bound) - 1
+            if s > upper_bound:
+                s = upper_bound
 
         return s
 
