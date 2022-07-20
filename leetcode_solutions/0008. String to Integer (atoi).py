@@ -15,7 +15,7 @@ The algorithm for myAtoi(string s) is as follows:
     4. Convert these digits into an integer (i.e. "123" -> 123, "0032" -> 32). If no digits were read, then the integer
     is 0. Change the sign as necessary (from step 2).
     5. If the integer is out of the 32-bit signed integer range [-2^31, 2^31 - 1], then clamp the integer so that it
-    remains in the range. Specifically, integers less than -231 should be clamped to -2^31, and integers greater than
+    remains in the range. Specifically, integers less than -2^31 should be clamped to -2^31, and integers greater than
     2^31 - 1 should be clamped to 2^31 - 1.
     6. Return the integer as the final result.
 
@@ -65,12 +65,53 @@ Example 3:
 Constraints:
     0 <= s.length <= 200
     s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.
+
+Notes:
+    Instructions unclear... do we parse numbers with leading words, or...
+    s = min(max(s, lower_bound), upper_bound): slower, but looks cool
 """
 
 
 class Solution:
-    def myAtoi(self, s: str) -> int:  #noqa
-        pass
+    # first attempt; 5 runtime errors provided useful test cases...
+    def myAtoi(self, s: str) -> int:  # noqa
+        # left whitespace strip
+        s = s.lstrip(' ')
+
+        # valid string check
+        if not s:
+            return 0
+
+        # sign assignment
+        sign = 1
+        if s[0] == '-':
+            sign = -1
+            s = s[1:]
+        elif s[0] == '+':
+            s = s[1:]
+
+        # right strip
+        if not s.isdigit():
+            for i, each_char in enumerate(s):
+                if not each_char.isdigit():
+                    s = s[:i]
+                    break
+
+        # convert to signed int
+        if s == '' or not s[0].isdigit():
+            s = 0
+        else:
+            s = sign * int(float(s))
+
+        # clamp boundaries
+        lower_bound = -2 ** 31
+        upper_bound = 2 ** 31 - 1
+        if s < lower_bound:
+            s = lower_bound
+        elif s > upper_bound:
+            s = upper_bound
+
+        return s
 
 
 class Test(Solution):
@@ -82,6 +123,18 @@ class Test(Solution):
         -42,
         "4193 with words":
         4193,
+
+        # failed
+        "words and 987":
+        0,
+        "3.14159":
+        3,
+        "":
+        0,
+        "00000-42a1234":
+        0,
+        " ":
+        0,
 
     }
 
@@ -99,5 +152,6 @@ class Test(Solution):
                 print(f"  \t test_inp: {test_input}\n"
                       f"\t\t expd_out: {expected_output}\n"
                       f"\t\t test_out: {actual_output}\n")
+
 
 Test().test_all()
