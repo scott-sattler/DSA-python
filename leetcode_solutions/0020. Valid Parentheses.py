@@ -27,8 +27,24 @@ Constraints:
 
 
 class Solution:
+    # first attempt
     def isValid(self, s: str) -> bool: # noqa
-        pass
+        lookup = {'(': ')', '[': ']', '{': '}'}
+        stack = []
+
+        for each_char in s:
+            lookup_val = lookup.get(each_char)
+            if lookup_val:
+                stack.append(lookup_val)
+            elif len(stack) and stack.pop(-1) == each_char:
+                continue
+            else:
+                return False
+
+        if len(stack):
+            return False
+
+        return True
 
 
 class Test(Solution):
