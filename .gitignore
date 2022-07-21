@@ -3,6 +3,7 @@ old_*
 scratch.py
 .idea
 old/
+unsolved/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
