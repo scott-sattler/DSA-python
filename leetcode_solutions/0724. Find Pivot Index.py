@@ -43,10 +43,35 @@ Note: This question is the same as 1991: https://leetcode.com/problems/find-the-
 
 
 class Solution:
-    # first attempt
+    # second attempt: modified first
+    # more performant and concise but potentially less clear/readable
     # time complexity: worst O(2n) -> O(n)
     # space complexity: constant -> O(1)
     def pivotIndex(self, nums: list[int]) -> int:  # noqa
+        # sum array
+        #   right is sum
+        #   left is 0
+        #   reasoning: leftmost pivot index
+        # iterate given array rightward
+        #   move right sum elements to left sum
+        #   return index if equal
+        #   readability: test is done between iterations
+
+        left_sum = 0
+        right_sum = sum(nums)
+
+        for i in range(0, len(nums)):
+            right_sum -= nums[i]
+            if left_sum == right_sum:
+                return i
+            left_sum += nums[i]
+
+        return -1
+
+    # first attempt
+    # time complexity: worst O(2n) -> O(n)
+    # space complexity: constant -> O(1)
+    def firt_attempt_pivotIndex(self, nums: list[int]) -> int:  # noqa
         # sum array
         #   right is sum
         #   left is 0
