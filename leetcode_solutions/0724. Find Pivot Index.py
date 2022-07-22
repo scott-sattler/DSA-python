@@ -43,9 +43,99 @@ Note: This question is the same as 1991: https://leetcode.com/problems/find-the-
 
 
 class Solution:
-    def pivotIndex(self, nums: List[int]) -> int:  # noqa
-        pass
+    # first attempt
+    # time complexity: worst O(2n) -> O(n)
+    # space complexity: constant -> O(1)
+    def pivotIndex(self, nums: list[int]) -> int:  # noqa
+        # sum array
+        #   right is sum
+        #   left is 0
+        #   reasoning: leftmost pivot index
+        # iterate given array rightward
+        #   move right sum elements to left sum
+        #   return index if equal
+
+        left_sum = 0
+        right_sum = sum(nums) - nums[0]
+
+        for i in range(0, len(nums)):
+            if i > 0:
+                left_sum += nums[i - 1]
+                right_sum -= nums[i]
+
+            if left_sum == right_sum:
+                return i
+
+        return -1
 
 
 class Test(Solution):
-    pass
+    tests = (
+        (
+            [1, 7, 3, 6, 5, 6],
+            3
+        ),
+        (
+            [1, 2, 3],
+            -1
+        ),
+        (
+            [2, 1, -1],
+            0
+        ),
+
+        # edge cases
+        (
+            [0],
+            0
+        ),
+        (
+            [0, 0, 0, 0, 0],
+            0
+        ),
+        (
+            [3],
+            0
+        ),
+        (
+            [-5],
+            0
+        ),
+        (
+            [-5, 5],
+            -1
+        ),
+        (
+            [1, 1],
+            -1
+        ),
+
+        # failed cases
+        (
+            [-1, -1, -1, -1, -1, 0],
+            2
+        ),
+
+    )
+
+    def test_all(self):
+        pass_count = 0
+        for each_test in self.tests:
+            test_input = each_test[0]
+            expected_output = each_test[1]
+            actual_output = self.pivotIndex(test_input)
+            try:
+                assert actual_output == expected_output
+                print("PASS", end="")
+                pass_count += 1
+            except AssertionError:
+                print("FAIL", end="")
+            finally:
+
+                print(f"  \t test_inp: {test_input}\n"
+                      f"\t\t expd_out: {expected_output}\n"
+                      f"\t\t test_out: {actual_output}\n")
+        print(f'SUMMARY: TESTED {len(self.tests)} | PASSED {pass_count} | FAILED {len(self.tests) - pass_count}')
+
+
+Test().test_all()
