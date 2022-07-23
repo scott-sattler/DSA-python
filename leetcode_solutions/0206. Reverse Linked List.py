@@ -49,6 +49,30 @@ class Solution:
 
         return reversed_ll
 
+    # second attempt: in-place
+    # much slower
+    # time complexity: O(n)
+    def second_attempt_reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+        # reverse in-place by swapping references/'pointers'
+        # get current node
+        # get next node
+        # current node next becomes previous node
+        # next node becomes current node
+        # current node becomes previous node
+
+        previous_node: ListNode | None = None
+        current_node: ListNode | None = head
+        next_node: ListNode | None
+
+        while current_node:
+            next_node = current_node.next
+            current_node.next = previous_node
+
+            previous_node = current_node
+            current_node = next_node
+
+        return previous_node
+
 
 class Test(Solution):
     tests = [
