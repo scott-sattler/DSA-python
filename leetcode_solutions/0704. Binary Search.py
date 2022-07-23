@@ -31,8 +31,8 @@ class Solution:
         # binary search is O(log n)
         # get midpoint
         # compare midpoint with target
-        #   if midpoint less, look right
-        #   if midpoint greater, look left
+        #   if target larger, look right
+        #   if target smaller, look left
 
         left_index = -1
         right_index = len(nums)
