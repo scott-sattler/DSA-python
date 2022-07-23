@@ -54,11 +54,12 @@ class Solution:
     # time complexity: O(n)
     def second_attempt_reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # reverse in-place by swapping references/'pointers'
-        # get current node
-        # get next node
-        # current node next becomes previous node
-        # next node becomes current node
-        # current node becomes previous node
+        # initialize nodes: current, previous, next (empty)
+        # loop
+        #   get next node through current node link
+        #   link current node to previous node
+        #   assign previous node to current node
+        #   assign current node to the next node
 
         previous_node: ListNode | None = None
         current_node: ListNode | None = head
