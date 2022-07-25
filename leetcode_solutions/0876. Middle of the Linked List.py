@@ -54,6 +54,27 @@ class Solution:
 
         return hash_lookup[median_node]
 
+    # second attempt: two pointers
+    # time complexity: O(n)
+    def second_attempt_middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+        # two pointers
+
+        trailing_index = 0
+        trailing_node = head
+        leading_index = 0
+        while head:
+
+            leading_index += 1
+            median_node = leading_index // 2  # len(ll) // 2 -> rightmost on even
+
+            while trailing_index < median_node:
+                trailing_node = trailing_node.next
+                trailing_index += 1
+
+            head = head.next
+
+        return trailing_node
+
 
 class Test(Solution):
     tests = (
