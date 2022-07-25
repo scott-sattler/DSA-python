@@ -27,7 +27,7 @@ import helper_functions as hf
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, val=0, next=None):
+    def __init__(self, val=0, next=None):  # noqa
         self.val = val
         self.next = next
 
