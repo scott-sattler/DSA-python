@@ -4,3 +4,26 @@
 
 lower difficulty problems are often untested/uncommented <br>
 problems are solved without external references unless otherwise noted
+
+
+# File Format
+
+    """
+    copy of problem
+    """
+    
+    class Solution:
+        # information
+        def most_recent_or_chosen_solution():
+            # solution information
+        
+        def other_solutions()
+        
+        def other_solutions()...
+        
+    
+    class Test(Solution)
+        def testing():
+        
+    
+    call_to_testing()
