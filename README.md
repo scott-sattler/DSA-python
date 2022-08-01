@@ -5,7 +5,7 @@
 [https://leetcode.com/scott_sattler/](https://leetcode.com/scott_sattler/)
 
 lower difficulty problems are often untested/uncommented <br>
-problems are solved without external references unless otherwise noted
+problems are solved without external reference unless otherwise noted
 
 
 # File Format
