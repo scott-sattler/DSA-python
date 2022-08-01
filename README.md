@@ -24,6 +24,8 @@ problems are solved without external references unless otherwise noted
     
     class Test(Solution)
         def testing():
+            # usually only testing the
+            # most recent/chosen solution
         
     
     call_to_testing()
