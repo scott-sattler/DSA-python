@@ -3,6 +3,11 @@ from __future__ import annotations
 from typing import Optional
 import warnings
 
+"""
+##############################
+######## LINKED LISTS ########
+##############################
+"""
 
 # Definition for singly-linked list.
 class ListNode:
@@ -147,3 +152,44 @@ def list_to_dict_key(key: list, selector: Optional[str] = None) -> tuple[tuple, 
 
     if selector == "two-nested":
         return tuple(key[0]), tuple(key[1])
+
+
+"""
+##############################
+########## MATRICES ##########
+##############################
+"""
+
+
+def beautify_matrix(matrix: list[list], tab_offset: int = 0, get_str: bool = True, box: bool = False) -> str | None:
+    """
+    :param matrix: matrix to beautify
+    :param tab_offset: beautified matrix tab-offset
+    :param get_str: return beautified string (vs in-place print)
+    :param box: include jank brackets (don't do it)
+    :return:
+    """
+    tabs = '\t' * tab_offset
+    top_line = ''
+    side = ''
+    bottom_line = ''
+    inn_spc = ' ' * 2  # inner_spacing
+    out_spc = inn_spc[1:]  # outer_spacing
+    if box:
+        fill_space = ((len(matrix[0]) - 1) * inn_spc) + (out_spc * 2) + (' ' * len(matrix[0]))
+        top_line = tabs + '\u250C' + fill_space + '\u2510' + '\n'
+        side = '\u2502'
+        bottom_line = '\n' + tabs + '\u2514' + fill_space + '\u2518' + '\n'
+
+    # output = str(matrix)[1:-1].replace('[', f'{tabs}{side}{out_spc}').replace('],', f'{out_spc}{side}\n').replace(']', f'{out_spc}{side}').replace(', ', f'{inn_spc}')  # noqa
+    output = str(matrix)[1:-1]
+    output = output.replace('[', f'{tabs}{side}{out_spc}')
+    output = output.replace('],', f'{out_spc}{side}\n')
+    output = output.replace(']', f'{out_spc}{side}')
+    output = output.replace(', ', f'{inn_spc}')
+
+    if box:
+        output = top_line + output + bottom_line
+    if get_str:
+        return output
+    print(output)
