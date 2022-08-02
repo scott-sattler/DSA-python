@@ -9,6 +9,7 @@ import warnings
 ##############################
 """
 
+
 # Definition for singly-linked list.
 class ListNode:
     # Provided
@@ -182,7 +183,7 @@ def beautify_matrix(matrix: list[list], tab_offset: int = 0, get_str: bool = Tru
         bottom_line = '\n' + tabs + '\u2514' + fill_space + '\u2518' + '\n'
 
     # output = str(matrix)[1:-1].replace('[', f'{tabs}{side}{out_spc}').replace('],', f'{out_spc}{side}\n').replace(']', f'{out_spc}{side}').replace(', ', f'{inn_spc}')  # noqa
-    output = str(matrix)[1:-1]
+    output = out_spc + str(matrix)[1:-1]
     output = output.replace('[', f'{tabs}{side}{out_spc}')
     output = output.replace('],', f'{out_spc}{side}\n')
     output = output.replace(']', f'{out_spc}{side}')
