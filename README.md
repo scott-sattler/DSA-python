@@ -1,4 +1,4 @@
-# Data Structures and Algorithms in Python
+# Data Structures and Algorithms in Python 3.10
 
 [most active directory: leetcode_solutions](https://github.com/scott-sattler/DSA-python/tree/main/leetcode_solutions) <br>
 
