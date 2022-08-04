@@ -120,7 +120,7 @@ class Test(Solution):
         # failed
         (
             test_cases.failed_test_1,
-            3  # unk
+            3
         )
 
     ]
@@ -149,8 +149,7 @@ class Test(Solution):
 
         tested = len(include) if len(include) > 0 else len(self.tests)
         print(f'SUMMARY: TESTED {tested} | PASSED {pass_count} | FAILED {len(tests_failed)}')
-        # print(f'SUMMARY: TESTED {len(self.tests)} | PASSED {pass_count} | FAILED {len(self.tests) - pass_count}')
         print(f'FAILED TESTS: {[f"test_{i:03d}" for i in tests_failed]}') if len(tests_failed) > 0 else print(end='')
 
 
-Test().test_all(1)
+Test().test_all()
