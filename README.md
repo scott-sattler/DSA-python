@@ -31,3 +31,8 @@ problems are solved without external reference unless otherwise noted
         
     
     call_to_testing()
+
+
+# TODO
+- find and solve any missed follow-ups <br>
+- complete todos
