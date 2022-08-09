@@ -15,7 +15,7 @@ in the input matrix. The sizes don't need to be in any particular order.
 
 # graph traversal
 def river_sizes(matrix):
-    # for each pixel in matrix
+    # for each element in matrix
     # check for visited (closed set)
     # check for correct value (1)
     # graph traversal (dfs/stack) until no additional connected nodes are found
@@ -25,7 +25,7 @@ def river_sizes(matrix):
 
     closed_set = []  # visited nodes
     connected_node_list = []
-    # for each pixel in matrix
+    # for each element in matrix
     for i, each_row in enumerate(matrix):
         for j, each_index in enumerate(each_row):
 
@@ -59,7 +59,7 @@ def river_sizes(matrix):
 
 # bounds check AND value check
 def find_nodes(element: tuple[int, int], matrix):
-    """ pixel: tuple(x, y) """
+    """ element: tuple(x, y) """
     # cardinal direction order
     found_nodes = []
     # north
