@@ -36,6 +36,8 @@ Note:   mutable, user defined objects are hashable in Python
 
         https://stackoverflow.com/a/56012972
         https://stackoverflow.com/a/66501227
+
+Notice: the definition for linked list does not contain a .next argument
 """
 
 from typing import Optional
@@ -50,14 +52,26 @@ class ListNode:
 
 
 class Solution:
-    # follow-up attempt
-    # time complexity: O(n)
+    # second follow-up attempt: pointer convergence
+    # todo
+    # referenced discussion: independently deriving this is difficult...
+    # time complexity: O(k * n) -> O(n)
     # space complexity: O(1)
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+        # two pointers: single/double node traversal
+        # collision indicates loop presence
+        # to calculate node:
+        #   ...
+        pass
+
+    # first follow-up attempt: storing information within nodes
+    # time complexity: O(n)
+    # space complexity: O(1)
+    def third_attempt_detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # modifying first attempt approach
         # change the .val type to indicate visited status
         #   here, the int is put into a list
-        # removing val changes would be O(n^2) time
+        # removing val changes would be O(2n) -> O(n) time
 
         node = head
         while node:
@@ -73,7 +87,7 @@ class Solution:
     # first attempt
     # time complexity: O(n)
     # space complexity: O(n)?
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+    def first_attempt_detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # traverse ll
         #   check if visited
         #   record observed nodes
@@ -109,43 +123,45 @@ class Solution:
 
 
 class Test(Solution):
+    # format: ([[input], hidden_input], output)
     tests = (
-        # provided
-        (
-            [[3, 2, 0, -4], 1],
-            1
-        ),
-        (
-            [[3, 2, 0, -4], 0],
-            0
-        ),
-        (
-            [[1], -1],
-            None
-        ),
+        # # provided
+        # (
+        #     [[3, 2, 0, -4], 1],
+        #     1
+        # ),
+        # (
+        #     [[3, 2, 0, -4], 0],
+        #     0
+        # ),
+        # (
+        #     [[1], -1],
+        #     None
+        # ),
+        #
+        # # non-comprehensive additions
+        # (
+        #     [[-1, 3, 1, 5, 1], -1],
+        #     None
+        # ),
+        # (
+        #     [[0, 1, 2, 3, 4], 4],
+        #     4
+        # ),
+        # (
+        #     [[0, 1, 2, 3, 4], 0],
+        #     0
+        # ),
+        # (
+        #     [[0, 1, 2, 3, 4], 1],
+        #     1
+        # ),
+        # (
+        #     [[-6, -3, -1, 0, 1], 4],
+        #     4
+        # ),
 
-
-        (
-            [[-1, 3, 1, 5, 1], -1],
-            None
-        ),
-        (
-            [[0, 1, 2, 3, 4], 4],
-            4
-        ),
-        (
-            [[0, 1, 2, 3, 4], 0],
-            0
-        ),
-        (
-            [[0, 1, 2, 3, 4], 1],
-            1
-        ),
-        (
-            [[-6, -3, -1, 0, 1], 4],
-            4
-        ),
-
+        # failure cases
         (
             [[1, 2], 0],
             0
