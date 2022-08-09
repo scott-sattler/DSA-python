@@ -35,9 +35,13 @@ class ListNode:
 
 
 class Solution:
+    # todo follow-up attempt: recursion
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+        raise NotImplementedError
+
     # first attempt
     # time complexity: O(n)
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
+    def first_attempt_reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:  # noqa
         # create ll, backwards
 
         reversed_ll: ListNode | None = None
