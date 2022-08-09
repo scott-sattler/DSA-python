@@ -31,7 +31,12 @@ Follow up: Could you solve it without converting the integer to a string?
 
 
 class Solution:
+    # todo first follow-up attempt
     def isPalindrome(self, x: int) -> bool:  # noqa
+        pass
+
+    # first attempt
+    def first_attempt_isPalindrome(self, x: int) -> bool:  # noqa
         return str(x)[::-1] == str(x)
 
 
