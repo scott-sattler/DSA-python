@@ -5,6 +5,24 @@ import warnings
 
 """
 ##############################
+########### TREES ############
+##############################
+"""
+
+
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
+
+def create_tree(node_list: list[any]) -> Node:
+    pass
+
+
+"""
+##############################
 ######## LINKED LISTS ########
 ##############################
 """
