@@ -42,8 +42,58 @@ Constraints:
 
 
 class Solution:
+    # first attempt: naive
+    # time complexity: O(n+m) -> O(n)
+    # space complexity:
     def getHint(self, secret: str, guess: str) -> str:  # noqa
-        pass
+        matches, out_of_order = 0, 0  # "bulls", "cows"
+        guess_digits, secret_digits = {}, {}
+
+        for i in range(len(guess)):  # note: len(guess) == len(secret)
+            guess_digit = guess[i]
+            secret_digit = secret[i]
+
+            # check digits for match
+            if guess_digit == secret_digit:
+                matches += 1
+                continue
+
+            # add digits to hash
+            if guess_digit in guess_digits:
+                guess_digits[guess_digit] += 1
+            else:
+                guess_digits[guess_digit] = 1
+            if secret_digit in secret_digits:
+                secret_digits[secret_digit] += 1
+            else:
+                secret_digits[secret_digit] = 1
+
+            # check digits for order: guess -?> secret
+            if guess_digit in secret_digits:
+                out_of_order += 1
+                # update guess hash
+                guess_digits[guess_digit] -= 1
+                if guess_digits[guess_digit] == 0:
+                    guess_digits.pop(guess_digit)
+                # update secret hash
+                secret_digits[guess_digit] -= 1
+                if secret_digits[guess_digit] == 0:
+                    secret_digits.pop(guess_digit)
+
+            # check digits for order: secret -?> guess
+            # compensates for multiple iterations
+            if secret_digit in guess_digits:
+                out_of_order += 1
+                # update guess hash
+                guess_digits[secret_digit] -= 1
+                if guess_digits[secret_digit] == 0:
+                    guess_digits.pop(secret_digit)
+                # update secret hash
+                secret_digits[secret_digit] -= 1
+                if secret_digits[secret_digit] == 0:
+                    secret_digits.pop(secret_digit)
+
+        return f"{matches}A{out_of_order}B"
 
 
 class Test(Solution):
@@ -57,7 +107,7 @@ class Test(Solution):
     tests = [
         # provided
         (
-            "1807", "7810", "1A1B"
+            "1807", "7810", "1A3B"
         ),
         (
             "1123", "0111", "1A1B"
@@ -65,7 +115,19 @@ class Test(Solution):
 
         #
         (
-            "", "", ""
+            "111222", "222111", "0A6B"
+        ),
+        (
+            "1", "2", "0A0B"
+        ),
+        (
+            "1", "1", "1A0B"
+        ),
+        (
+            "11", "11", "2A0B"
+        ),
+        (
+            "111", "111", "3A0B"
         ),
 
     ]
@@ -88,7 +150,7 @@ class Test(Solution):
                 tests_failed.append(i)
             finally:
 
-                print(f"  \t test_{i:03d}: {each_test[0]}\n"
+                print(f"  \t test_{i:03d}: {each_test}\n"
                       f"\t\t expd_out: {expected_output}\n"
                       f"\t\t test_out: {actual_output}\n")
 
