@@ -34,22 +34,41 @@ Constraints:
 """
 
 
-class Trie:
+class BoolDict:
+    def __init__(self, is_word: bool = False) -> None:
+        self.is_word = is_word
+        self.children: dict = dict()
 
-    def __init__(self):
-        pass
+
+class Trie:
+    def __init__(self) -> None:
+        self.root: BoolDict = BoolDict()
 
     def insert(self, word: str) -> None:
-        pass
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = BoolDict()
+            node = node.children[char]
+        else:
+            node.is_word = True
 
     def search(self, word: str) -> bool:
-        pass
+        node = self.root
+        for char in word:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                return False
+        else:
+            return node.is_word
 
     def startsWith(self, prefix: str) -> bool:  # noqa: naming convention
-        pass
-
-# Your Trie object will be instantiated and called as such:
-# obj = Trie()
-# obj.insert(word)
-# param_2 = obj.search(word)
-# param_3 = obj.startsWith(prefix)
+        node = self.root
+        for char in prefix:
+            if char in node.children:
+                node = node.children[char]
+            else:
+                return False
+        else:
+            return True
