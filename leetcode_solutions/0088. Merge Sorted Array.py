@@ -43,8 +43,38 @@ Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
 
 class Solution:
+    # time complexity: O(n + m)
+    # space complexity: O(1)
     def merge(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        pass
+        # nums1 size is nums1 + nums2
+        # to sort in place with space O(1), use unused space in nums1
+        # given constraints:
+        #   consume backwards: nums1 @ m-n-1; nums2 @ n-1
+
+        num_min = -10 ** 10  # rather than -math.inf
+        sort_index = len(nums1) - 1
+        i = len(nums1) - len(nums2) - 1
+        j = len(nums2) - 1
+        while sort_index >= 0:
+            first = num_min
+            second = num_min
+            if i >= 0:
+                first = nums1[i]
+            if j >= 0:
+                second = nums2[j]
+            if first > second:
+                i -= 1
+                nums1[sort_index] = first
+            else:
+                j -= 1
+                nums1[sort_index] = second
+            sort_index -= 1
+
+
+nums1t = [0, 1, 3, 5, 0, 0, 0]
+nums2t = [2, 3, 6]
+Solution().merge(nums1t, len(nums1t), nums2t, len(nums2t))
+print(nums1t)
