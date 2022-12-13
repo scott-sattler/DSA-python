@@ -25,21 +25,53 @@ Constraints:
 
 
 class Solution:
+    # first attempt
+    # time complexity: O(n)
+    # space complexity: O(1)
     def canJump(self, nums: list[int]) -> bool:  # noqa: naming convention
-        return
+        # left to right
+        # track max distance from current point
+        # greedy
+        n = len(nums)
+        max_distance = 0
+        for i in range(n - 1):
+            # max distance
+            max_distance = max(max_distance, nums[i])
+
+            # fails if max ever falls below 1
+            if max_distance < 1:
+                return False
+            max_distance -= 1
+
+        return True
 
 
 # taken from 0299; modified
 class Test:
-    # format:
+    # format: [ ( input , expected_out ), ]
     test_cases: list[tuple[list, bool]] = [
         # provided
         ([2, 3, 1, 1, 4], True),
         ([3, 2, 1, 0, 4], False),
 
+        # additional
+        ([5, 0, 0, 0, 0], True),
+        ([3, 0, 0, 0, 0], False),
+        ([4, 0, 0, 0, 0], True),
+
+        ([0], True),
+        ([1], True),
+
+        ([0, 5, 5, 5, 5], False),
+        ([99, 0, 0, 0, 0], True),
+
     ]
 
     def test_all(self, *include):
+        """
+        :param include: eg .test_all(0, 2, 5); or .test_all()
+        :return: None
+        """
         tests = self.test_cases
         s = Solution()
 
@@ -69,4 +101,6 @@ class Test:
         print(f'FAILED TESTS: {[f"test_{i:03d}" for i in tests_failed]}') if len(tests_failed) > 0 else print(end='')
 
 
+# example usages
+# Test().test_all(0, 2, 5); Test().test_all()
 Test().test_all()
