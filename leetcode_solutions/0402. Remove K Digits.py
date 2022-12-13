@@ -25,6 +25,14 @@ Constraints:
     num consists of only digits.
     num does not have any leading zeros except for the zero itself.
 
+Notes:
+    While the problem statement does not specify the following condition, the objective is to remove the three largest
+    /consecutive/ digits (or "smallest possible integer after removing k [consecutive] digits from num").
+
+    Also not included in the description: you /must/ remove k digits...
+
+    Made somewhat clear via Example 2, "Note that the output must not contain leading zeroes.", is actually: solutions
+    that contain a leading zero are not valid.
 """
 
 
@@ -32,7 +40,8 @@ class Solution:
     # first attempt
 
     def removeKdigits(self, num: str, k: int) -> str:  # noqa: naming convention
-        return ""
+
+        return ''
 
 
 # taken from 0055
@@ -41,11 +50,26 @@ class Test:
     test_cases: list[tuple[list, bool]] = [
         # provided
         (("1432219", 3), "1219"),
-        (("10200", 1), "200"),
+        (("10200", 1), "100"),
         (("10", 2), "0"),
 
         # additional
+        (("0", 0), "0"),
+        (("0", 1), "0"),
+        (("0", 99), "0"),
+        (("0000", 0), "0"),
+        (("0000", 1), "0"),
+        (("0000", 99), "0"),
 
+        # leading zeros
+        (("0321", 3), "0"),
+        (("0000321", 3), "0"),
+        (("0000321", 1), "21"),
+        (("0000321", 2), "1"),
+        # trailing zeros
+        (("973000", 3), "0"),
+        (("647", 1), "64000"),
+        (("642000", 2), "2000"),
 
     ]
 
@@ -64,7 +88,7 @@ class Test:
                 continue
             test_input = each_test[0]
             expected_output = each_test[1]
-            actual_output = s.canJump(test_input)
+            actual_output = s.removeKdigits(test_input[0], test_input[1])  # <--- fn name here
             try:
                 assert actual_output == expected_output
                 print("PASS", end="")
