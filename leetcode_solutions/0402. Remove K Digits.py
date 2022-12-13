@@ -37,39 +37,96 @@ Notes:
 
 
 class Solution:
-    # first attempt
-
+    # second attempt: external reference
+    # time complexity: O(n)
+    # space complexity: O(n)
     def removeKdigits(self, num: str, k: int) -> str:  # noqa: naming convention
+        # greedy
+        # stack
 
-        return ''
+        # add each digit to stack
+        # if encountering decreasing
+        #   pop stack until no k or less than
+        stack = []
+        for i in range(len(num)):
+            while stack and k and num[i] < stack[-1]:
+                stack.pop()
+                k -= 1
+            stack.append(num[i])
+        if k:
+            stack = stack[:-k] if len(stack) > k > 0 else "0"
+
+        return str(int(''.join(stack)))
+
+    # first attempt: incorrect problem understanding
+    # time complexity: O(n*k)
+    # space complexity: O(n)
+    def first_attempt_removeKdigits(self, num: str, k: int) -> str:  # noqa: naming convention
+        # greedy
+        min_num = float('inf')
+        for i in range(len(num)):
+            min_const = num[0:i] + num[i + k:]
+            min_const = int(min_const) if min_const != "" else 0
+            min_num = min(min_num, min_const)
+
+        return str(min_num)
 
 
 # taken from 0055
 class Test:
+    # 1 <= k <= num.length <= 10^5
+    # only digits
+    # no leading zeros
+
+    # preprocessing
+    # comprehensive testing
+    # large_1 = "1" + ("0" * (10 ** 5 - 2)) + "1"  # too slow
+    large_1 = "1" + ("0" * (10 ** 3 - 2)) + "1"  #
+
     # format: [ ( input , expected_out ), ]
     test_cases: list[tuple[list, bool]] = [
         # provided
         (("1432219", 3), "1219"),
-        (("10200", 1), "100"),
+        (("10200", 1), "200"),
         (("10", 2), "0"),
 
         # additional
         (("0", 0), "0"),
         (("0", 1), "0"),
-        (("0", 99), "0"),
-        (("0000", 0), "0"),
-        (("0000", 1), "0"),
-        (("0000", 99), "0"),
+        (("0", 10 ** 5 - 1), "0"),
+        (("0", 10 ** 5), "0"),
 
-        # leading zeros
-        (("0321", 3), "0"),
-        (("0000321", 3), "0"),
-        (("0000321", 1), "21"),
-        (("0000321", 2), "1"),
+        (("101", 1), "1"),
+        ((large_1, 1), "1"),
+        ((large_1, 0), large_1),
+        ((large_1, len(large_1) - 1), "0"),
+        ((large_1, len(large_1)), "0"),
+
         # trailing zeros
         (("973000", 3), "0"),
-        (("647", 1), "64000"),
+        (("647", 1), "47"),
         (("642000", 2), "2000"),
+
+        (("973" + large_1[1:-1], len(large_1) + 1), "0"),
+        (("973" + large_1[1:-1], 3), "0"),
+        (("973" + large_1[1:-1], 2), "3" + large_1[1:-1]),
+        (("973" + large_1[1:-1], 1), "73" + large_1[1:-1]),
+
+        # rand
+        (("1432219", 2), "12219"),
+        (("1432219", 1), "132219"),
+        (("1432219", 0), "1432219"),
+
+        # new
+        (("102432219", 3), "22219"),
+        (("102432219", 2), "232219"),
+
+        (("111002", 3), "2"),
+        (("321202", 2), "1202"),
+        (("321202", 4), "2"),
+
+        # failed
+        (("10001", 4), "0"),
 
     ]
 
