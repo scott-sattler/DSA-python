@@ -46,15 +46,28 @@ class Solution:
         pass
 
 
+class TestCase:
+    def __init__(self, gas: list, cost: list, out: int) -> None:
+        self.gas = gas
+        self.cost = cost
+        self.out = out
+
+
 # taken from 0402
 class Test:
     # preprocessing
+    # None
 
-    # format: [ ( input , expected_out ), ]
-    test_cases: list[tuple[list, list, int]] = [
+    test_cases: list[TestCase] = [
         # provided
-        ([1, 2, 3, 4, 5], [3, 4, 5, 1, 2], 3),
-        ([2, 3, 4], [3, 4, 3], -1),
+        TestCase(
+            [1, 2, 3, 4, 5],
+            [3, 4, 5, 1, 2],
+            3),
+        TestCase(
+            [2, 3, 4],
+            [3, 4, 3],
+            -1),
 
         # additional
 
@@ -73,8 +86,8 @@ class Test:
         for i, each_test in enumerate(tests):
             if len(include) > 0 and i not in include:
                 continue
-            test_input = each_test[0]
-            expected_output = each_test[1]
+            test_input = (each_test.gas, each_test.cost)  # <--- modify as needed
+            expected_output = each_test.out  # <--- modify as needed
             actual_output = s.canCompleteCircuit(test_input[0], test_input[1])  # <--- fn name here
             try:
                 assert actual_output == expected_output
