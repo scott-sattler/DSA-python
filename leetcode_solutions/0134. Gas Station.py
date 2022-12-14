@@ -42,6 +42,9 @@ Constraints:
 
 
 class Solution:
+    # first attempt:
+    # time complexity:
+    # space complexity:
     def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:  # noqa: naming convention
         pass
 
