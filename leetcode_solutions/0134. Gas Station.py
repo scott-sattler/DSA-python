@@ -42,18 +42,26 @@ Constraints:
 
 
 class Solution:
-    # first attempt:
-    # time complexity:
-    # space complexity:
+    # second attempt: greedy; external ref (conceptual)
+    # time complexity: O(n)
+    # space complexity: O(1)
     def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:  # noqa: naming convention
-        pass
+        total_gas = current_trip = last_index = 0
+        for i in range(len(gas)):
+            diff = gas[i] - cost[i]
+            total_gas += diff
+            current_trip += diff
+            if current_trip < 0:
+                last_index = i + 1
+                current_trip = 0
+        return last_index if total_gas >= 0 else -1
 
 
 class TestCase:
-    def __init__(self, gas: list, cost: list, out: int) -> None:
+    def __init__(self, gas: list, cost: list, index: int) -> None:
         self.gas = gas
         self.cost = cost
-        self.out = out
+        self.index = index
 
 
 # taken from 0402
@@ -73,6 +81,21 @@ class Test:
             -1),
 
         # additional
+        TestCase(
+            [1, 2],
+            [2, 1],
+            1),
+
+        # failed
+        TestCase(
+            [5, 8, 2, 8],
+            [6, 5, 6, 6],
+            3),
+        TestCase(
+            [1, 2, 3, 4, 5],
+            [3, 4, 5, 1, 2],
+            #-2 -2 -2 3  3
+            3),
 
     ]
 
@@ -90,7 +113,7 @@ class Test:
             if len(include) > 0 and i not in include:
                 continue
             test_input = (each_test.gas, each_test.cost)  # <--- modify as needed
-            expected_output = each_test.out  # <--- modify as needed
+            expected_output = each_test.index  # <--- modify as needed
             actual_output = s.canCompleteCircuit(test_input[0], test_input[1])  # <--- fn name here
             try:
                 assert actual_output == expected_output
