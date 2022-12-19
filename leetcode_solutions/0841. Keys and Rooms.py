@@ -49,6 +49,9 @@ class TestCase:
         self.rooms = rooms
         self.output = output
 
+    def __repr__(self):
+        return f"{self.rooms} {self.output}"
+
 
 # taken from 0134
 class Test:
