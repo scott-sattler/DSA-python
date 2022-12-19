@@ -53,20 +53,28 @@ class TestCase:
 # taken from 0134
 class Test:
     # preprocessing (boundaries)
-    # None
+    max_rooms = [[i] for i in range(1000)]
 
     test_cases: list[TestCase] = [
         # provided
-        TestCase(
-            [[1], [2], [3], []],
-            True
-        ),
-        TestCase(
-            [[1, 3], [3, 0, 1], [2], [0]],
-            False
-        ),
+        TestCase([[1], [2], [3], []], True),
+        TestCase([[1, 3], [3, 0, 1], [2], [0]], False),
 
         # additional
+        TestCase([[], [0]], False),
+        TestCase([[0], []], False),
+        TestCase([[2], []], False),
+
+        # skipping larger boundary conditions
+        TestCase(max_rooms, True),
+
+        # misc
+        # skip
+        TestCase([[2], [], [3], [1]], True),
+        # loops
+        TestCase([[2], [3], [0], [1]], False),
+        TestCase([[1], [2], [3], [2]], True),
+        TestCase([[1], [2], [3], [2], [4]], False),
 
         # failed
 
