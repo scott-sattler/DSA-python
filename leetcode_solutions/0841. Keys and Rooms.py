@@ -39,8 +39,35 @@ Constraints:
 
 
 class Solution:
+    # first attempt:
+    # time complexity: O(n)
+    # space complexity: O(n)
     def canVisitAllRooms(self, rooms: list[list[int]]) -> bool:  # noqa: naming convention
-        pass
+        # edge case: first room has no keys
+        if len(rooms[0]) < 1:
+            return False
+
+        # visited hashmap
+        visited = {i: False for i in range(len(rooms))}
+        # keys stack
+        keys = [0]  # agenda
+        # keys set
+        key_set = {0}
+
+        while keys:
+            next_key = keys.pop()  # get next key from agenda
+            visited[next_key] = True  # mark room as seen
+            current_room = rooms[next_key]
+            for each_key in current_room:  # for each key in current room
+                # if the door exists and the key is new
+                if each_key in visited and each_key not in key_set:
+                    keys.append(each_key)  # add to agenda
+                    key_set.add(each_key)  # add to key set
+
+        for room in visited.values():
+            if room is False:  # if not room
+                return False
+        return True
 
 
 # taken from 0134
@@ -56,7 +83,8 @@ class TestCase:
 # taken from 0134
 class Test:
     # preprocessing (boundaries)
-    max_rooms = [[i] for i in range(1000)]
+    max_rooms_fail = [[i] for i in range(1000)]
+    max_rooms_pass = [[i+1] for i in range(1000)]
 
     test_cases: list[TestCase] = [
         # provided
@@ -69,7 +97,8 @@ class Test:
         TestCase([[2], []], False),
 
         # skipping larger boundary conditions
-        TestCase(max_rooms, True),
+        TestCase(max_rooms_fail, False),
+        TestCase(max_rooms_pass, True),
 
         # misc
         # skip
@@ -98,7 +127,7 @@ class Test:
                 continue
             test_input = each_test.rooms  # <--- modify as needed
             expected_output = each_test.output  # <--- modify as needed
-            actual_output = s.canVisitAllRooms(test_input[0])  # <--- fn name here
+            actual_output = s.canVisitAllRooms(test_input)  # <--- fn name here
             try:
                 assert actual_output == expected_output
                 print("PASS", end="")
