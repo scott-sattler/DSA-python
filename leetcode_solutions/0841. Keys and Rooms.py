@@ -43,10 +43,6 @@ class Solution:
     # time complexity: O(n)
     # space complexity: O(n)
     def canVisitAllRooms(self, rooms: list[list[int]]) -> bool:  # noqa: naming convention
-        # edge case: first room has no keys
-        if len(rooms[0]) < 1:
-            return False
-
         # visited hashmap
         visited = {i: False for i in range(len(rooms))}
         # keys stack
