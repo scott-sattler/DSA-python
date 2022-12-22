@@ -40,7 +40,7 @@ Constraints:
 
 class Solution:
     # first attempt:
-    # time complexity: O(n)
+    # time complexity: O(n+k)
     # space complexity: O(n)
     def canVisitAllRooms(self, rooms: list[list[int]]) -> bool:  # noqa: naming convention
         # visited hashmap
