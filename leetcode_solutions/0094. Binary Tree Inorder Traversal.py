@@ -34,5 +34,14 @@ class TreeNode:
 
 class Solution:
     def inorderTraversal(self, root: None | TreeNode) -> list[int]:  # noqa: naming convention
-        pass
+        my_list = list()
+        self._inorderTraversal(root, my_list)
+        return my_list
 
+    def _inorderTraversal(self, root: None | TreeNode, ret_lst: list) -> None | list[int]:  # noqa: naming convention
+        if root is None:
+            return
+
+        self._inorderTraversal(root.left, ret_lst)
+        ret_lst.append(root.val)
+        self._inorderTraversal(root.right, ret_lst)
