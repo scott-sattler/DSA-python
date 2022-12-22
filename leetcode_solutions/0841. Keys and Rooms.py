@@ -39,16 +39,13 @@ Constraints:
 
 
 class Solution:
-    # first attempt:
-    # time complexity: O(n+k)
+    # first attempt: minor revisions
+    # time complexity: O(n+k), where k is the total number of keys (edges) from all rooms
     # space complexity: O(n)
     def canVisitAllRooms(self, rooms: list[list[int]]) -> bool:  # noqa: naming convention
-        # visited hashmap
-        visited = {i: False for i in range(len(rooms))}
-        # keys stack
-        keys = [0]  # agenda
-        # keys set
-        key_set = {0}
+        visited = {i: False for i in range(len(rooms))}  # visited hashmap
+        keys = [0]  # keys stack: DFS agenda
+        key_set = {0}  # keys set
 
         while keys:
             next_key = keys.pop()  # get next key from agenda
@@ -60,10 +57,7 @@ class Solution:
                     keys.append(each_key)  # add to agenda
                     key_set.add(each_key)  # add to key set
 
-        for room in visited.values():
-            if room is False:  # if not room
-                return False
-        return True
+        return all(visited.values())
 
 
 # taken from 0134
