@@ -34,6 +34,9 @@ Constraints:
 
 
 class Solution:
+    # first attempt:
+    # time complexity:
+    # space complexity:
     def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:  # noqa: naming convention
         pass
 
