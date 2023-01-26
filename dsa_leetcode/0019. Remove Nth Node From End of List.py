@@ -16,7 +16,6 @@ Example 3:
     Input: head = [1,2], n = 1
     Output: [1]
 
-
 Constraints:
     The number of nodes in the list is sz.
     1 <= sz <= 30
@@ -40,10 +39,17 @@ class ListNode:
 
 
 class Solution:
+    # second attempt: w/ follow-up; external reference
+    # computational complexity: O(n)
+    # space complexity: O(1)
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
+        # two pointers approach
+        return head
+
     # first attempt: with follow-up
     # computational complexity: O(n)
     # space complexity: O(n)
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
+    def first_attempt_removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
         # need to track each node
         # create list of node references
         current = head
@@ -135,7 +141,7 @@ class Test:
 
         tested = len(include) if len(include) > 0 else len(tests)
         print(f'SUMMARY: TESTED {tested} | PASSED {pass_count} | FAILED {len(tests_failed)}')
-        print(f'FAILED TESTS: {[f"test_{i:03d}" for i in tests_failed]}') if len(tests_failed) > 0 else print(end='')
+        print(f'FAILED TESTS: {[f"test_{i:03d}" for i in tests_failed]}') if len(tests_failed) > 0 else print()
 
 
 # example usages
