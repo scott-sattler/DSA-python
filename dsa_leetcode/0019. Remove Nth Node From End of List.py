@@ -39,11 +39,56 @@ class ListNode:
 
 
 class Solution:
-    # second attempt: w/ follow-up; external reference
+    # third attempt: w/ follow-up; external reference; cleanup
     # computational complexity: O(n)
     # space complexity: O(1)
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
         # two pointers approach
+        current = head
+        trailing = head
+
+        for _ in range(n):
+            current = current.next
+
+        # first and single
+        if current is None:
+            return head.next
+
+        while current.next:
+            current = current.next
+            trailing = trailing.next
+
+        # drop next node
+        trailing.next = trailing.next.next
+
+        return head
+
+    # second attempt: w/ follow-up; external reference
+    # computational complexity: O(n)
+    # space complexity: O(1)
+    def second_attempt_removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
+        # two pointers approach
+
+        trailing = head  # keeps track of node before removed node
+        current = head
+
+        i = 0
+        while current.next:
+            current = current.next
+            i += 1
+            if i > n:  # trails by n
+                trailing = trailing.next
+
+        # edge cases (single, first, last)
+        if trailing is current:
+            return None
+        if n == 1:
+            trailing.next = None
+        elif trailing is head and i < n:
+            head = head.next
+        else:
+            trailing.next = trailing.next.next
+
         return head
 
     # first attempt: with follow-up
@@ -98,7 +143,9 @@ class Test:
         TestCase(hf.create_ll([1, 2]), 1, hf.create_ll([1])),
 
         # additional
-
+        TestCase(hf.create_ll([1, 2, 3, 4, 5]), 5, hf.create_ll([2, 3, 4, 5])),
+        TestCase(hf.create_ll([1, 2, 3, 4, 5]), 3, hf.create_ll([1, 2, 4, 5])),
+        TestCase(hf.create_ll([1, 2, 3]), 2, hf.create_ll([1, 3])),
 
         # failed
         TestCase(hf.create_ll([1, 2]), 2, hf.create_ll([2])),
