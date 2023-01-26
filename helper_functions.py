@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 from typing import Optional
 import warnings
 
@@ -135,7 +136,7 @@ def print_verbose_ll(linked_list: ListNode, get_string: bool = False) -> None | 
 
 
 # beautified
-def get_verbose_ll_string(linked_list: ListNode) -> None:
+def get_verbose_ll_string(linked_list: ListNode) -> str:
     """ reference format: ListNode{val: 1, next: ListNode{val: 2, next: ListNode{val: 3, next: None}}}"""
     node = linked_list
     print_string = '\n'
@@ -171,6 +172,16 @@ def list_to_dict_key(key: list, selector: Optional[str] = None) -> tuple[tuple, 
 
     if selector == "two-nested":
         return tuple(key[0]), tuple(key[1])
+
+
+def copy_ll(head: ListNode):
+    new_head = copy.deepcopy(head)
+    new_copy_pointer = new_head
+    while head.next:
+        head = head.next
+        new_copy_pointer.next = copy.deepcopy(head)
+        new_copy_pointer = new_copy_pointer.next
+    return new_head
 
 
 """
