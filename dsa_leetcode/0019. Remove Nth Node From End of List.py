@@ -27,7 +27,7 @@ Constraints:
 Follow up: Could you do this in one pass?
 
 """
-
+import copy
 from typing import Optional
 import helper_functions as hf
 
@@ -40,7 +40,31 @@ class ListNode:
 
 
 class Solution:
+    # first attempt: with follow-up
+    # computational complexity: O(n)
+    # space complexity: O(n)
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:  # noqa: naming convention
+        # need to track each node
+        # create list of node references
+        current = head
+        node_list = list()
+        while current:
+            node_list.append(current)
+            current = current.next
+
+        n = len(node_list) - n
+
+        if len(node_list) == 1 and n == 0:
+            return None
+
+        if n == 0:
+            return head.next
+
+        if n == len(node_list) - 1:
+            node_list[n - 1].next = None
+        else:
+            node_list[n - 1].next = node_list[n + 1]
+
         return head
 
 
@@ -71,6 +95,7 @@ class Test:
 
 
         # failed
+        TestCase(hf.create_ll([1, 2]), 2, hf.create_ll([2])),
 
     ]
 
@@ -88,9 +113,11 @@ class Test:
             if len(include) > 0 and i not in include:
                 continue
             test_input = each_test.inp  # <--- modify as needed
+            test_input_copy = hf.copy_ll(each_test.head)  # <--- for ll
             expected_output = each_test.output  # <--- modify as needed
             actual_output = s.removeNthFromEnd(test_input[0], test_input[1])  # <--- fn name here
             # for ll
+            test_input_copy = hf.ll_to_non_ll(test_input_copy)
             expected_output = hf.ll_to_non_ll(expected_output)
             actual_output = hf.ll_to_non_ll(actual_output)
             try:
@@ -102,7 +129,7 @@ class Test:
                 tests_failed.append(i)
             finally:
 
-                print(f"  \t test_{i:03d}: {each_test}\n"
+                print(f"  \t test_{i:03d}: {test_input_copy} {each_test.n}\n"
                       f"\t\t expd_out: {expected_output}\n"
                       f"\t\t test_out: {actual_output}\n")
 
