@@ -40,10 +40,42 @@ class ListNode:
 
 class Solution:
     # first attempt: previously solved
-    # computational complexity:
-    # space complexity:
+    # computational complexity: O(n)
+    # space complexity: O(n)
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:  # noqa: naming convention
-        pass
+        # traverse lls and add values
+        # keep track of values > 9
+
+        dummy = ListNode()
+        ll_sum = dummy
+        carry = 0
+
+        while l1 or l2 or carry > 0:
+
+            if l1 is None:
+                l1_val = 0
+            else:
+                l1_val = l1.val
+                l1 = l1.next
+
+            if l2 is None:
+                l2_val = 0
+            else:
+                l2_val = l2.val
+                l2 = l2.next
+
+            next_node = ListNode()
+
+            total = l1_val + l2_val + carry // 10
+            leftmost_digit = total % 10
+            carry = total - leftmost_digit
+
+            next_node.val = leftmost_digit
+
+            ll_sum.next = next_node
+            ll_sum = ll_sum.next
+
+        return dummy.next
 
 
 # taken from 0019
