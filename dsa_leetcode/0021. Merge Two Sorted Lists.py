@@ -39,11 +39,33 @@ class ListNode:
 
 
 class Solution:
-    # first attempt:
-    # time complexity:
-    # space complexity (auxiliary):
+    # first attempt: note, can be done in O(1) space
+    # time complexity: O(n+m)
+    # space complexity (auxiliary): O(n+m)
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:  # noqa: naming convention
-        pass
+        # mergesort-esque
+
+        sorted_ll = ListNode()
+        dummy = sorted_ll  # dummy
+        while list1 or list2:
+            l1_val = float('inf')
+            l2_val = float('inf')
+
+            if list1 is not None:
+                l1_val = list1.val
+            if list2 is not None:
+                l2_val = list2.val
+
+            if l1_val < l2_val:
+                sorted_ll.next = list1
+                list1 = list1.next
+            else:
+                sorted_ll.next = list2
+                list2 = list2.next
+
+            sorted_ll = sorted_ll.next
+
+        return dummy.next
 
 
 # taken from 0002 (not most recent)
