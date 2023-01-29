@@ -39,6 +39,9 @@ class ListNode:
 
 
 class Solution:
+    # first attempt:
+    # time complexity:
+    # space complexity (auxiliary):
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:  # noqa: naming convention
         pass
 
