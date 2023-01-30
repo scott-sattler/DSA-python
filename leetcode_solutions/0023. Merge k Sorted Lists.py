@@ -53,7 +53,27 @@ class Solution:
     # computational complexity:
     # space complexity (auxiliary):
     def mergeKLists(self, lists: list[Optional[ListNode]]) -> Optional[ListNode]:  # noqa: naming convention
-        pass
+        merged_ll = ListNode()
+        dummy = merged_ll
+
+        min_pointer_index = True  # warning
+        while min_pointer_index is not None:
+            min_pointer = ListNode(val=10**5)  # bounds; float('inf') gave warning
+            min_pointer_index = None  # warning
+
+            # find next smallest value
+            for i, each_ll in enumerate(lists):
+                if each_ll is not None and each_ll.val < min_pointer.val:
+                    min_pointer = each_ll
+                    min_pointer_index = i
+
+            if min_pointer_index is not None:
+                new_head = min_pointer.next
+                lists[min_pointer_index] = new_head
+                merged_ll.next = min_pointer
+                merged_ll = merged_ll.next
+
+        return dummy.next
 
 
 # taken from 0021
@@ -69,6 +89,7 @@ class TestCase:
 
 # taken from 0021
 class Test:
+    import test_cases as tc
     # preprocessing (boundaries)
     # None
 
@@ -107,6 +128,9 @@ class Test:
         #     )),
 
         # failed
+        TestCase(
+            [hf.create_ll(i) for i in tc.failed_test_2],
+            hf.create_ll(tc.failed_test_2_expected)),
 
     ]
 
