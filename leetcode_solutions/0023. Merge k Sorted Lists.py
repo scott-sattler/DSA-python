@@ -49,10 +49,16 @@ class ListNode:
 
 
 class Solution:
-    # first attempt:
+    # second attempt:
     # computational complexity:
     # space complexity (auxiliary):
     def mergeKLists(self, lists: list[Optional[ListNode]]) -> Optional[ListNode]:  # noqa: naming convention
+        pass
+
+    # first attempt:
+    # computational complexity:
+    # space complexity (auxiliary):
+    def first_attempt_mergeKLists(self, lists: list[Optional[ListNode]]) -> Optional[ListNode]:  # noqa: naming convention
         merged_ll = ListNode()
         dummy = merged_ll
 
