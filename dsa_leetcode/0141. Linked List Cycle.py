@@ -50,6 +50,8 @@ class ListNode:
 
 class Solution:
     # first attempt: previously solved
+    # time complexity:
+    # space complexity (auxiliary):
     def hasCycle(self, head: Optional[ListNode]) -> bool:  # noqa: naming convention
         pass
 
