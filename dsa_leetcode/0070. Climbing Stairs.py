@@ -30,7 +30,20 @@ Constraints:
 """
 
 
+# dynamic programing: recursive w/ memo
+# time complexity: O(n)
+# space complexity: O(n + n) -> O(n) aux space (callstack + memo)
 class Solution:
-    def climbStairs(self, n: int) -> int:
-        pass
+    def climbStairs(self, n: int) -> int:  # noqa: naming convention
+        memo = dict()
+        return self._climbStairs(n, memo)
+
+    def _climbStairs(self, n: int, memo: dict):  # noqa: naming convention
+        if n < 1:
+            return 1 * (n + 1)
+
+        if n not in memo:
+            memo[n] = self._climbStairs(n - 1, memo) + self._climbStairs(n - 2, memo)
+
+        return memo[n]
 
