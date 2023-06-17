@@ -60,13 +60,13 @@ test_cases = [
 
 
 test_fns = {name: obj for name, obj in globals().copy().items() if callable(obj)}
-for each_fn in test_fns[1:]:
+for fn_name, each_fn in test_fns.items():
     for each_test in test_cases:
         print(each_test, end=' ')
         try:
             assert each_fn(each_test[0], each_test[1]) == each_test[2]
-            print('PASS')
+            print(fn_name, 'PASS')
         except AssertionError:
-            print('FAIL', end=' ')
+            print(fn_name, 'FAIL', end=' ')
             print(each_fn(each_test[0], each_test[1]))
             # assert brute_force(each_test[0], each_test[1]) == each_test[2]  # for easy debugging
