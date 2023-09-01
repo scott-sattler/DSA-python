@@ -64,16 +64,33 @@ class Solution:
    / \   / \ / \   / \
   3   2 1  0 0  1 2   3
   
+            1
+           / \
+       2         2
+      / \       / \
+    4     5   5     4
+   / \   / \ / \   / \
+  3   2 1  0 0  1 2   3
+  
 '''  # noqa
 
-h3_0 = TreeNode(3)
-h3_1 = TreeNode(2)
-h3_2 = TreeNode(1)
-h3_3 = TreeNode(0)
-h3_4 = TreeNode(0)
-h3_5 = TreeNode(1)
-h3_6 = TreeNode(2)
-h3_7 = TreeNode(3)
+h3_0 = TreeNode(6)
+h3_1 = TreeNode(7)
+h3_2 = TreeNode(8)
+h3_3 = TreeNode(9)
+h3_4 = TreeNode(9)
+h3_5 = TreeNode(8)
+h3_6 = TreeNode(7)
+h3_7 = TreeNode(6)
+
+# h3_0 = TreeNode(3)
+# h3_1 = TreeNode(2)
+# h3_2 = TreeNode(1)
+# h3_3 = TreeNode(0)
+# h3_4 = TreeNode(0)
+# h3_5 = TreeNode(1)
+# h3_6 = TreeNode(2)
+# h3_7 = TreeNode(3)
 
 h2_0 = TreeNode(4, h3_0, h3_1)
 h2_1 = TreeNode(5, h3_2, h3_3)
