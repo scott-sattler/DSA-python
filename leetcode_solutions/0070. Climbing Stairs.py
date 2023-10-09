@@ -31,7 +31,8 @@ Constraints:
 
 
 class Solution:  # noqa __init__ warning
-    # dynamic programming bottom-up/tabulation
+    # bottom-up dp
+    # tabulation
     # time: O(n)
     # space: O(n)
     def climbStairs(self, n: int) -> int:  # noqa naming
@@ -46,3 +47,18 @@ class Solution:  # noqa __init__ warning
             table[i] = table[i - 1] + table[i - 2]
 
         return table[-1]
+
+    # top-down dp
+    # memoization
+    # time: O(n)
+    # space: O(n) from O(1) input; O(n) memo; O(n) recursive call-stack
+    def climbStairs(self, n: int) -> int:  # noqa naming
+        memo = dict()
+        return self._climbStairs(n, memo)
+
+    def _climbStairs(self, n, memo):  # noqa naming
+        if n < 2:
+            return 1
+        if n not in memo:
+            memo[n] = self._climbStairs(n - 1, memo) + self._climbStairs(n - 2, memo)
+        return memo[n]
