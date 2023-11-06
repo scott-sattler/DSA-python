@@ -1,32 +1,40 @@
-# from collections import deque
+from dataclasses import dataclass
+from typing import Self, Hashable
 
+
+@dataclass
 class Node:
-    def __init__(self, key=None, value=None, next_node=None, prev_node=None):
-        self.key = key  # todo consider removing
-        self.value = value
-        self.next_node = next_node
-        self.prev_node = prev_node
+    key: Hashable | None = None
+    value: any = None
+    left: Self | None = None
+    right: Self | None = None
 
 
+# from collections import deque
 class Deque:
     def __init__(self):
-        # the head and tail are dummy nodes
+        # head and tail are dummy nodes
         self.head = Node()
         self.tail = Node()
-        self.head.next_node = self.tail
-        self.tail.prev_node = self.head
+        self.head.right = self.tail
+        self.tail.left = self.head
 
-    def pop(self):
-        if self.head.next_node is self.tail:
-            raise Exception
-        self.delete(self.tail.prev_node)
+    # behavior approximately matches collections.deque.pop()
+    def pop(self) -> Node:
+        if self.head.right is self.tail:
+            raise IndexError("IndexError: pop from empty list")
+        last_node = self.tail.left
+        last_node.left.right = self.tail  # or ... = last_node.right
+        self.tail.left = last_node.left
+        return last_node
 
-    def insert_leftmost(self, node: Node):
-        shifted_node = self.head.next_node
-        self.head.next_node = node
-        node.prev_node = self.head
-        node.next_node = shifted_node
-        shifted_node.prev_node = node
+    # noinspection SpellCheckingInspection
+    def appendleft(self, node: Node) -> None:
+        shifted_node = self.head.right
+        self.head.right = node
+        node.left = self.head
+        node.right = shifted_node
+        shifted_node.left = node
 
     def popleft(self):
         raise NotImplementedError
@@ -36,71 +44,57 @@ class Deque:
 
     @staticmethod
     def delete(to_delete: Node):
-        prev = to_delete.prev_node
-        prev.next_node = to_delete.next_node
-        to_delete.next_node.prev_node = prev
-
-    def _check(self, node: Node):
-        # todo doesn't check if node is in the deque
-        conditions = list()
-        conditions.append(self.head.next_node is self.tail)
-        # conditions.append(node.next_node is None)
-        # conditions.append(node.prev_node is None)
-        if any(conditions):
-            raise Exception
+        left_of_delete = to_delete.left
+        left_of_delete.right = to_delete.right
+        to_delete.right.left = left_of_delete
 
 
 class LRU:
-    def __bool__(self):
-        return True if self.capacity > 0 else False
-
-    def __repr__(self):
-        deq = list()
-        head = self.deque.head
-        while head:
-            if head is not None:
-                deq.append((head.key, head.value))
-            head = head.next_node
-        return str(deq)
-
     def __init__(self, capacity: int = 0):
         self.capacity = capacity
         self.node_map = dict()
         self.deque = Deque()
 
-    def get(self, key: int):
-        if key not in self.node_map:
-            raise Exception
+    def __bool__(self):
+        return True if self.capacity > 0 else False
 
-        # get node from map
-        # delete from deque then insert leftmost
-        node = self.node_map[key]
-        self.deque.delete(node)
-        self.deque.insert_leftmost(node)
+    def __repr__(self):
+        node = self.deque.head
+        return str([tuple([node := node.right, node.key, node.value][1:]) for _ in range(len(self.node_map))])
+
+    def get(self, key: int) -> Node.value:
+        if key not in self.node_map:
+            return None
+        node = self.node_map[key]    # get node from map
+        self.deque.delete(node)      # delete from deque
+        self.deque.appendleft(node)  # then insert leftmost
         return node.value
 
-    def put(self, key: int, value: int):
+    def put(self, key: Node.key, value: Node.value) -> None:
+        # check for key, add if not present
         if key not in self.node_map:
-            self.node_map[key] = Node(key, value)  # todo consider removing key
-        self.deque.insert_leftmost(self.node_map[key])
-
+            self.node_map[key] = Node(key, value)
+        else:  # update existing key and remove outdated entry
+            self.node_map[key].value = value
+            self.deque.delete(self.node_map[key])
+        # update deque
+        self.deque.appendleft(self.node_map[key])
+        # impose size constraint
         if len(self.node_map) > self.capacity:
-            pop_node = self.deque.tail.prev_node
+            pop_node = self.deque.tail.left
             pop_node_key = pop_node.key
             self.deque.pop()
             del self.node_map[pop_node_key]
 
 
 if __name__ == '__main__':
+    # format: <command> <id/key> <value>
+    # limited to integer keys/values
     lru = LRU(int(input('size: ')))
     while True:
-        usr_inp = input('command: ')
-        command = usr_inp.split()[0]
-        if command == 'put':
-            lru.put(int(usr_inp.split()[1]), int(usr_inp.split()[2]))
-        elif command == 'get':
-            foo = lru.get(int(usr_inp.split()[1]))
-            print(foo)
-
+        usr_inp = input('command: ').split()
+        if usr_inp[0] == 'put':
+            lru.put(int(usr_inp[1]), int(usr_inp[2]))  # noqa
+        elif usr_inp[0] == 'get':
+            print(lru.get(int(usr_inp[1])))
         print(lru)
-
