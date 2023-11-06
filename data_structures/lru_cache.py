@@ -22,7 +22,7 @@ class Deque:
     # behavior approximately matches collections.deque.pop()
     def pop(self) -> Node:
         if self.head.right is self.tail:
-            raise IndexError("IndexError: pop from empty list")
+            raise IndexError("IndexError: pop from an empty deque")
         last_node = self.tail.left
         last_node.left.right = self.tail  # or ... = last_node.right
         self.tail.left = last_node.left
