@@ -37,9 +37,34 @@ class BinaryTest(unittest.TestCase):
         array = 3
         with self.assertRaises(TypeError):
             BinarySearch(array)
+
+    def type_test_float(self):
+        array = 3.3
+        with self.assertRaises(TypeError):
+            BinarySearch(array)
+
+    def type_test_bool(self):
+        array = True
+        with self.assertRaises(TypeError):
+            BinarySearch(array)
+
+    def type_test_none(self):
+        array = None
+        with self.assertRaises(TypeError):
+            BinarySearch(array)
             
     def type_test_dict(self):
         array = {1: 2}
+        with self.assertRaises(TypeError):
+            BinarySearch(array)
+
+    def type_test_string(self):
+        array = '1234'
+        with self.assertRaises(TypeError):
+            BinarySearch(array)
+
+    def type_test_tuple(self):
+        array = (1, 2, 3)
         with self.assertRaises(TypeError):
             BinarySearch(array)
     
@@ -48,7 +73,7 @@ class BinaryTest(unittest.TestCase):
         target = 0
         actual = BinarySearch(array).find(target)
         expected = None
-        self.assertEqual(expected == actual)
+        self.assertEqual(expected, actual)
 
     def test_single_match_1(self):
         array = [0]
@@ -317,13 +342,5 @@ class BinaryTest(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()
-
-
-
-
-
-
