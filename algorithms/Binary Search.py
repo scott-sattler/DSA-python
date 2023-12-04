@@ -26,12 +26,8 @@ class BinarySearch:
         :return: target index or None if not found
         """
         n = len(self.array)
-        if n < 3:
-            for i in range(n):
-                if self.array[i] == target:
-                    return i
-            else:
-                return None
+        if n < 1:  # if not self.array
+            return None
 
         lo = 0
         hi = n - 1
