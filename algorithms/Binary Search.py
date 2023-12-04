@@ -50,18 +50,6 @@ class BinarySearch:
 
         return None
 
-    # O(n * log2 n) time complexity
-    def validate(self, target):
-        found = self.find(target)
-        if not found:
-            if target not in self.array:
-                return True
-        else:  # target in self.array:
-            if self.array.index(target) == found:
-                return True
-
-        return False
-
 
 class BinaryTest(unittest.TestCase):
     def type_test_int(self):
