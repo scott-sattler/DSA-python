@@ -18,7 +18,13 @@ class BinarySearch:
         self.array = array
         self.rotated = rotated
 
+    # O(log2 n) time complexity
+    # O(1) auxiliary space complexity
     def find(self, target):
+        """
+        :param target: target to find
+        :return: target index or None if not found
+        """
         n = len(self.array)
         if n < 3:
             for i in range(n):
@@ -27,9 +33,34 @@ class BinarySearch:
             else:
                 return None
 
+        lo = 0
+        hi = n - 1
+        while hi > lo:
+            mid = lo + (hi - lo) // 2
+            element = self.array[mid]
+            if element == target:
+                return mid
+            elif target < element:
+                hi = mid - 1
+            else:  # target > element:
+                lo = mid + 1
 
+        if self.array[lo] == target:
+            return lo
 
         return None
+
+    # O(n * log2 n) time complexity
+    def validate(self, target):
+        found = self.find(target)
+        if not found:
+            if target not in self.array:
+                return True
+        else:  # target in self.array:
+            if self.array.index(target) == found:
+                return True
+
+        return False
 
 
 class BinaryTest(unittest.TestCase):
