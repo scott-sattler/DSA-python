@@ -22,15 +22,16 @@ def mergesort_td(arr: list):
             merged.append(right[j])
             j += 1
 
-    # one of the two lists was consumed
     if i < len(left):
-        while i < len(left):
-            merged.append(left[i])
-            i += 1
+        remain = left
+        k = i
     else:  # j < len(right)
-        while j < len(right):
-            merged.append(right[j])
-            j += 1
+        remain = right
+        k = j
+
+    while k < len(remain):
+        merged.append(remain[k])
+        k += 1
 
     return merged
 
