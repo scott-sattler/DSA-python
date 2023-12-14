@@ -2,7 +2,7 @@
 
 def mergesort_td(arr: list):
     """
-    stability not tested
+    stability untested
     """
     if len(arr) < 2:
         return arr
@@ -14,20 +14,20 @@ def mergesort_td(arr: list):
 
     i, j = 0, 0
     merged = list()
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            merged.append(left[i])
-            i += 1
-        else:  # right[j] < left[i]:
-            merged.append(right[j])
-            j += 1
+    while i < len(left) or j < len(right):
+        left_el = float('inf')
+        right_el = float('inf')
+        if i < len(left):
+            left_el = left[i]
+        if j < len(right):
+            right_el = right[j]
 
-    if j < len(right):
-        left = right
-        i = j
-    while i < len(left):
-        merged.append(left[i])
-        i += 1
+        if left_el < right_el:
+            merged.append(left_el)
+            i += 1
+        else:  # right_el < left_el:
+            merged.append(right_el)
+            j += 1
 
     return merged
 
