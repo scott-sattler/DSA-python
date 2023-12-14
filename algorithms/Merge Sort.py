@@ -1,33 +1,27 @@
 
 
 def mergesort_td(arr: list):
-    """
-    stability untested
-    """
     if len(arr) < 2:
         return arr
 
     mid_p = len(arr) // 2
-
-    left = mergesort_td(arr[0:mid_p])
-    right = mergesort_td(arr[mid_p:len(arr)])
+    left = mergesort_td(arr[:mid_p])
+    right = mergesort_td(arr[mid_p:])
 
     i, j = 0, 0
     merged = list()
-    while i < len(left) or j < len(right):
-        left_el = float('inf')
-        right_el = float('inf')
-        if i < len(left):
-            left_el = left[i]
-        if j < len(right):
-            right_el = right[j]
-
-        if left_el < right_el:
-            merged.append(left_el)
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
             i += 1
-        else:  # right_el < left_el:
-            merged.append(right_el)
+        else:  # right[j] < left[i]
+            merged.append(right[j])
             j += 1
+
+    remain = right[j:]
+    if i < len(left):
+        remain = left[i:]
+    merged.extend(remain)
 
     return merged
 
