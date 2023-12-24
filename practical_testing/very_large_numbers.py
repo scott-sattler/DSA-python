@@ -2,7 +2,7 @@ import time
 
 """
 conclusions:
-performance (very large integers > multiple large integers > strings)
+
 
 """
 
@@ -58,8 +58,11 @@ def fn6(n):
             '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567892',
             '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567893'
         ]
+        # if ('1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890' ==
+        #     '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'):  # noqa
+        #     i = i + 1
         if ('1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890' ==
-            '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'):  # noqa
+            each[i % 3]):  # noqa
             i = i + 1
 
 
@@ -72,6 +75,37 @@ def fn7(n):
                 if 123456789012345678901234567890 == (123456789012345678901234567890 + i):
                     i = i + 1
 
+
+# print(hex(int('100' * 26)))
+def fn8(n):
+    for i in range(n):
+        #  0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000  100 digits  # noqa
+        if (0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029004 ==
+            0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029004 + i):  # noqa
+            i = i + 1
+
+
+# def fn9(n):
+#     for i in range(n):
+#         #  0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000  100 digits  # noqa
+#         if ('0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029004' ==
+#             '0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029005'):  # noqa
+#             i = i + 1
+
+
+def fn10(n):
+    for i in range(n):
+        #  0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000  100 digits  # noqa
+        if ('0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029004' ==
+            '0xdd4ea61dc1d67452e2395ad686430c11a0c5bc6345a70419a02900419a029005'):  # noqa
+            i = i + 1
+
+
+# print(id('a') == id('a'))
+
+print('abcdfghijklmn' * 6)
+x = bytes('abcdfghijklmn' * 6, 'utf8')
+print(x)
 
 loops = 100_000_000
 
@@ -161,7 +195,37 @@ loops = 100_000_000
 # time.sleep(1)
 
 
-# fn4 (100 digit int) vs fn7 (3 conditional 30 digit ints)
+# # fn4 (100 digit int) vs fn7 (3 conditional 30 digit ints)
+# print('\n4')
+# start = time.perf_counter()
+# fn4(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n7')
+# start = time.perf_counter()
+# fn7(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n7')
+# start = time.perf_counter()
+# fn7(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n4')
+# start = time.perf_counter()
+# fn4(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+
+
+# fn4 (100 digit int) vs fn8 (hex value)
 print('\n4')
 start = time.perf_counter()
 fn4(loops)
@@ -169,16 +233,16 @@ stop = time.perf_counter()
 print(stop - start, start, stop)
 time.sleep(1)
 
-print('\n7')
+print('\n8')
 start = time.perf_counter()
-fn7(loops)
+fn8(loops)
 stop = time.perf_counter()
 print(stop - start, start, stop)
 time.sleep(1)
 
-print('\n7')
+print('\n8')
 start = time.perf_counter()
-fn7(loops)
+fn8(loops)
 stop = time.perf_counter()
 print(stop - start, start, stop)
 time.sleep(1)
@@ -189,3 +253,33 @@ fn4(loops)
 stop = time.perf_counter()
 print(stop - start, start, stop)
 time.sleep(1)
+
+
+# # fn8 (hex value) vs fn9 (string hex value)
+# print('\n8')
+# start = time.perf_counter()
+# fn8(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n9')
+# start = time.perf_counter()
+# fn9(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n9')
+# start = time.perf_counter()
+# fn9(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n8')
+# start = time.perf_counter()
+# fn8(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
