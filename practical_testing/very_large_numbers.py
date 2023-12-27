@@ -101,11 +101,17 @@ def fn10(n):
             i = i + 1
 
 
-# print(id('a') == id('a'))
+def fn11(n):
+    for i in range(n):
+        if True:
+            i = i + 1
 
-print('abcdfghijklmn' * 6)
-x = bytes('abcdfghijklmn' * 6, 'utf8')
-print(x)
+
+# # print(id('a') == id('a'))
+#
+# print('abcdfghijklmn' * 6)
+# x = bytes('abcdfghijklmn' * 6, 'utf8')
+# print(x)
 
 loops = 100_000_000
 
@@ -225,34 +231,34 @@ loops = 100_000_000
 # time.sleep(1)
 
 
-# fn4 (100 digit int) vs fn8 (hex value)
-print('\n4')
-start = time.perf_counter()
-fn4(loops)
-stop = time.perf_counter()
-print(stop - start, start, stop)
-time.sleep(1)
-
-print('\n8')
-start = time.perf_counter()
-fn8(loops)
-stop = time.perf_counter()
-print(stop - start, start, stop)
-time.sleep(1)
-
-print('\n8')
-start = time.perf_counter()
-fn8(loops)
-stop = time.perf_counter()
-print(stop - start, start, stop)
-time.sleep(1)
-
-print('\n4')
-start = time.perf_counter()
-fn4(loops)
-stop = time.perf_counter()
-print(stop - start, start, stop)
-time.sleep(1)
+# # fn4 (100 digit int) vs fn8 (hex value)
+# print('\n4')
+# start = time.perf_counter()
+# fn4(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n8')
+# start = time.perf_counter()
+# fn8(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n8')
+# start = time.perf_counter()
+# fn8(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
+#
+# print('\n4')
+# start = time.perf_counter()
+# fn4(loops)
+# stop = time.perf_counter()
+# print(stop - start, start, stop)
+# time.sleep(1)
 
 
 # # fn8 (hex value) vs fn9 (string hex value)
@@ -283,3 +289,33 @@ time.sleep(1)
 # stop = time.perf_counter()
 # print(stop - start, start, stop)
 # time.sleep(1)
+
+
+# fn4 (100 digit int) vs fn11 (control? value)
+print('\n4')
+start = time.perf_counter()
+fn4(loops)
+stop = time.perf_counter()
+print(stop - start, start, stop)
+time.sleep(1)
+
+print('\n11')
+start = time.perf_counter()
+fn11(loops)
+stop = time.perf_counter()
+print(stop - start, start, stop)
+time.sleep(1)
+
+print('\n11')
+start = time.perf_counter()
+fn11(loops)
+stop = time.perf_counter()
+print(stop - start, start, stop)
+time.sleep(1)
+
+print('\n4')
+start = time.perf_counter()
+fn4(loops)
+stop = time.perf_counter()
+print(stop - start, start, stop)
+time.sleep(1)
