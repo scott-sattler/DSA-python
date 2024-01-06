@@ -32,12 +32,13 @@ Constraints:
 
 """
 
+from typing import List
+
 
 class Solution:
-    # first attempt:
-    # time complexity:
-    # space complexity:
-    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:  # noqa: naming convention
+    # noinspection PyPep8Naming
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # topological sort
         pass
 
 
@@ -63,6 +64,9 @@ class Test:
         TestCase(2, [[1, 0], [0, 1]], False),
 
         # failed
+        TestCase(20, [[0, 10], [3, 18], [5, 5], [6, 11], [11, 14], [13, 1], [15, 1], [17, 4]], False),
+        TestCase(2, [], True),
+
 
     ]
 
@@ -103,10 +107,3 @@ class Test:
 # example usages
 # Test().test_all(0, 2, 5); Test().test_all()
 Test().test_all()
-
-
-
-
-
-
-
