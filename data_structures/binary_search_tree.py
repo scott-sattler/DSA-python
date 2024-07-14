@@ -30,27 +30,25 @@ class BST:
             self.root = node
             return
 
-        curr = self.root
-        parr = curr
-        while True:
-            # child is null
+        def ins(curr, prev):
             if not curr:
-                if ins_val > parr.val:
-                    parr.right = node
+                if ins_val < prev.val:
+                    prev.left = node
                 else:
-                    parr.left = node
-                return
-
-            parr = curr
-            if ins_val < curr.val:
-                curr = curr.left
+                    prev.right = node
             else:
-                curr = curr.right
+                if ins_val < curr.val:
+                    ins(curr.left, curr)
+                else:
+                    ins(curr.right, curr)
+
+        ins(self.root, None)
+
 
 if __name__ == '__main__':
     tree = BST()
     test_list = [0, 9, 4, 2, 7, 1, 89, 3, 8, 6]
-    for val in test_list:
-        tree.insert(val)
+    for value in test_list:
+        tree.insert(value)
     print(tree.in_order_rep())
 
