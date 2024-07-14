@@ -7,6 +7,9 @@ class BST:
             self.left = left
             self.right = right
 
+    def __repr__(self):
+        return str(self.in_order_rep())
+
     def __init__(self):
         self.root = None
 
@@ -66,7 +69,7 @@ if __name__ == '__main__':
     test_list = [0, 9, 4, 2, 7, 1, 89, 3, 8, 6]
     for value in test_list:
         tree.insert(value)
-    print(tree.in_order_rep())
+    print(tree)
     for value in test_list:
         print(tree.search(value), end=' ')
     print()
