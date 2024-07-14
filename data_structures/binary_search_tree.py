@@ -10,7 +10,7 @@ class BST:
     def __init__(self):
         self.root = None
 
-    def in_order_rep(self):
+    def in_order_rep(self) -> list:
         rep = list()
         node = self.root
 
@@ -24,25 +24,41 @@ class BST:
         in_order(node, rep)
         return rep
 
-    def insert(self, ins_val):
+    def insert(self, ins_val: int | float) -> None:
         node = self.Node(ins_val)
         if not self.root:
             self.root = node
             return
+        self._hf_insert(node, self.root, None)
 
-        def ins(curr, prev):
-            if not curr:
-                if ins_val < prev.val:
-                    prev.left = node
-                else:
-                    prev.right = node
+    def _hf_insert(self, node, curr, prev) -> None:
+        if not curr:
+            if node.val < prev.val:
+                prev.left = node
             else:
-                if ins_val < curr.val:
-                    ins(curr.left, curr)
-                else:
-                    ins(curr.right, curr)
+                prev.right = node
+        else:
+            if node.val < curr.val:
+                self._hf_insert(node, curr.left, curr)
+            else:
+                self._hf_insert(node, curr.right, curr)
 
-        ins(self.root, None)
+    def search(self, find) -> bool:
+        curr = self.root
+        if not curr:
+            return False
+        return self._search_hf(self.root, find)
+
+    def _search_hf(self, node, find) -> bool:
+        if not node:
+            return False
+
+        if node.val == find:
+            return True
+        elif find < node.val:
+            return self._search_hf(node.left, find)
+        else:
+            return self._search_hf(node.right, find)
 
 
 if __name__ == '__main__':
@@ -51,4 +67,19 @@ if __name__ == '__main__':
     for value in test_list:
         tree.insert(value)
     print(tree.in_order_rep())
+    for value in test_list:
+        print(tree.search(value), end=' ')
+    print()
 
+    for value in test_list:
+        print(tree.search(value - 1) == ((value - 1) in test_list), end=' ')
+    print()
+
+    for value in test_list:
+        print(tree.search(value + 1) == ((value + 1) in test_list), end=' ')
+    print()
+
+    for i in range(-10, 100):
+        if i % 10 == 0:
+            print()
+        print(tree.search(i) == (i in test_list), end=' ')
