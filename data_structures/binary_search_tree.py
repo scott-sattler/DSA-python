@@ -1,3 +1,4 @@
+import random
 
 
 class BST:
@@ -65,24 +66,30 @@ class BST:
 
 
 if __name__ == '__main__':
-    tree = BST()
-    test_list = [0, 9, 4, 2, 7, 1, 89, 3, 8, 6]
-    for value in test_list:
-        tree.insert(value)
-    print(tree)
-    for value in test_list:
-        print(tree.search(value), end=' ')
-    print()
+    # test_list = [0, 9, 4, 2, 7, 1, 89, 3, 8, 6]
+    test_lists = list()
+    test_lists.append(random.choices([i for i in range(-100, 0)], k=10))
+    test_lists.append(random.choices([i for i in range(0, 100)], k=10))
+    test_lists.append(random.choices([i for i in range(-100, 100)], k=10))
+    for test_list in test_lists:
+        tree = BST()
+        for value in test_list:
+            tree.insert(value)
+        print(tree)
+        for value in test_list:
+            print(tree.search(value), end=' ')
+        print()
 
-    for value in test_list:
-        print(tree.search(value - 1) == ((value - 1) in test_list), end=' ')
-    print()
+        for value in test_list:
+            print(tree.search(value - 1) == ((value - 1) in test_list), end=' ')
+        print()
 
-    for value in test_list:
-        print(tree.search(value + 1) == ((value + 1) in test_list), end=' ')
-    print()
+        for value in test_list:
+            print(tree.search(value + 1) == ((value + 1) in test_list), end=' ')
+        print()
 
-    for i in range(-10, 100):
-        if i % 10 == 0:
-            print()
-        print(tree.search(i) == (i in test_list), end=' ')
+        for i in range(-10, 100):
+            if i % 10 == 0:
+                print()
+            print(tree.search(i) == (i in test_list), end=' ')
+        print('\n')
