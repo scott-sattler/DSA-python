@@ -1,7 +1,7 @@
 import random
 
 
-class BST:
+class BinarySearchTree:
     class Node:
         def __init__(self, val, left=None, right=None):
             self.val = val
@@ -65,6 +65,7 @@ class BST:
             return self._search_hf(node.right, find)
 
 
+
 if __name__ == '__main__':
     # test_list = [0, 9, 4, 2, 7, 1, 89, 3, 8, 6]
     test_lists = list()
@@ -72,7 +73,7 @@ if __name__ == '__main__':
     test_lists.append(random.choices([i for i in range(0, 100)], k=10))
     test_lists.append(random.choices([i for i in range(-100, 100)], k=10))
     for test_list in test_lists:
-        tree = BST()
+        tree = BinarySearchTree()
         for value in test_list:
             tree.insert(value)
         print(tree)
