@@ -1,12 +1,6 @@
-# Data Structures and Algorithms in Python 3.10
+# Data Structures and Algorithms in Python 3.10 (or later)
 
-[most active directory: leetcode_solutions](https://github.com/scott-sattler/DSA-python/tree/main/leetcode_solutions) <br>
-
-[https://leetcode.com/scott_sattler/](https://leetcode.com/scott_sattler/)
-
-lower difficulty problems are often untested/uncommented <br>
-problems are solved without external reference unless otherwise noted
-
+[most active LeetCode directory](https://github.com/scott-sattler/coachable/tree/main/LC%20Mock) <br>
 
 # File Format
 
@@ -34,6 +28,4 @@ problems are solved without external reference unless otherwise noted
 
 
 # TODO
-- find and solve any missed follow-ups <br>
-- complete todos
-- refactor testing into separate file
+- create separate testing framework
