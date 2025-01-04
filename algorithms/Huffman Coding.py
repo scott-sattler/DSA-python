@@ -41,12 +41,14 @@ class Node:
     
     notes:
     frequency ties are broken via ASCII decimal value (alphanumerically lexicographically)
-    None nodes are always considered the right child, or b'1' on a given level
+    when compared to leaf-nodes, non-leaf (None) nodes are always considered the right child, or b'1' on a given level
+    non-leaf (None) node ties are arbitrarily resolved (handled via header information)
     notice that, given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
-        n1 will appear lower in the priority queue, thus closer to the root
+        n1 will appear _lower_ in the priority queue, thus closer to the root
     """
     def __lt__(self, other):
-        # None nodes are never less than others (thus always rightmost children)
+        # handles null (None) non-leaf nodes
+        # non-leaf (None) nodes are always greater than others (thus always rightmost children)
         if not self.char:
             return False
         if not other.char:
@@ -54,11 +56,12 @@ class Node:
         # priority queue ties are broken by inverting ascii value (see notes above)
         if self.freq == other.freq:
             return ord(self.char) > ord(other.char)
+        # otherwise, sort by frequency
         return self.freq < other.freq
 
     def __gt__(self, other):
         # handles null (None) non-leaf nodes
-        # None nodes are always greater than others (thus always rightmost children)
+        # non-leaf (None) nodes are always greater than others (thus always rightmost children)
         if not self.char:
             return True
         if not other.char:
