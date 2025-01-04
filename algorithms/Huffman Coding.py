@@ -8,6 +8,7 @@ from dataclasses import dataclass
 #  implement optimal serialized binary tree header or similar
 #  review tree construction (hence, code assignment)
 #  None node ties are arbitrary, and may be inconsistent without, e.g., a proper header
+#  figure out how to best implement expected test results
 
 '''
 references
