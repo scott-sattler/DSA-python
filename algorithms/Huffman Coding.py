@@ -2,10 +2,9 @@ from __future__ import annotations
 import heapq
 from dataclasses import dataclass
 
-
 # todo:
 #  implement canonical Huffman code implementation
-
+#  fix tree construction (hence, code assignment)
 
 
 @dataclass
@@ -18,31 +17,50 @@ class Node:
     """
     overriding comparators simplifies usage within heapq operations
     frequency ties are broken via ASCII decimal value (alphanumerically lexicographically)
-
+    None nodes are always considered the right child, or b'1' on that level
+    
     notes:
-        None nodes are always considered greater than, right child, or b'1'
-        where (N1 < N2), N1 will appear lower in the tree 
+        given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
+            n1 will appear lower in the priority queue, thus closer to the root
     """
     def __lt__(self, other):
+        # None nodes are never less than others (thus always rightmost children)
         if not self.char:
-            return True
-        if not other.char:
             return False
+        if not other.char:
+            return True
+
+        # priority queue ties are broken by inverting ascii value
+        # level comparisons must be corrected on each level during tree construction
         if self.freq == other.freq:
-            return ord(self.char) < ord(other.char)
+            return ord(self.char) > ord(other.char)
+
+        # otherwise, sort by frequency
         return self.freq < other.freq
 
     def __gt__(self, other):
+        # None nodes are always greater than others (thus always rightmost children)
         if not self.char:
-            return False
-        if not other.char:
             return True
+        if not other.char:
+            return False
+
+        # priority queue ties are broken by inverting ascii value
+        # level comparisons must be corrected on each level during tree construction
         if self.freq == other.freq:
-            return ord(self.char) > ord(other.char)
+            return ord(self.char) < ord(other.char)
+
+        # otherwise, sort by frequency
         return self.freq > other.freq
 
     def __eq__(self, other):
         return self.freq == other.freq
+
+    def __bool__(self):
+        # print('bool(self.char)', bool(self.char), self)
+        if self is not None:
+            return bool(self.char)
+        return False
 
 
 class Huffman:
@@ -71,6 +89,10 @@ class Huffman:
         while len(priority_queue) > 1:
             left = heapq.heappop(priority_queue)
             right = heapq.heappop(priority_queue)
+
+            if left and right and left == right and left < right:  # hack (see comparator comments)
+                left, right = right, left
+
             parent = Node(None, left.freq + right.freq, left, right)
             heapq.heappush(priority_queue, parent)
 
@@ -79,11 +101,11 @@ class Huffman:
 
     # O(n)
     def encode(self):
-        if not self.binary_tree:
+        if self.binary_tree is None:
             raise Exception('Binary Tree not yet constructed.')
 
         def preorder(node, code, encoding_map):
-            if not node:
+            if node is None:
                 return
             if node.char is not None:
                 encoding_map[node.char] = code.encode('ascii')
@@ -95,12 +117,12 @@ class Huffman:
         self.encoded_map = encoded_map
 
         encoded = [encoded_map[symbol] for symbol in self.unencoded_symbols]
-        number = 0
-        for bits in encoded:
-            number = (2 * number) + int(bits)
-        print(number, bin(number))
 
-
+        # # todo: fix - broken
+        # number = 0
+        # for bits in encoded:
+        #     number = (2 * number) + int(bits)
+        # print(number, bin(number))
         return encoded
 
     # O(n)
@@ -141,8 +163,8 @@ if __name__ == '__main__':
     #            b'10', b'00', b'1111', b'110', b'10', b'01', b'110', b'01', b'00', b'10', b'1111', b'10', b'1110', b'10',
     #            b'00', b'1111', b'110', b'01']
 
-    # inp_str = "abbccc"
-    # exp_out = [b'10', b'11', b'11', b'0', b'0', b'0']
+    inp_str = "abbccc"
+    exp_out = [b'10', b'11', b'11', b'0', b'0', b'0']
 
     # inp_str = "abbcc"
     # exp_out = [b'10', b'11', b'11', b'0', b'0']
@@ -156,8 +178,8 @@ if __name__ == '__main__':
     # inp_str = 'abc'
     # exp_out = []
 
-    inp_str = 'abcdef'
-    exp_out = []
+    # inp_str = 'abcdef'
+    # exp_out = []
 
     # inp_str = "My friend loves dragons. Dragons are friends. Friends are for food, dragons, are dragon."
 
