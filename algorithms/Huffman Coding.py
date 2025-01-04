@@ -191,7 +191,7 @@ if __name__ == '__main__':
             input_string='z',
             expected_encoded_map={'z': b'0'}),
         dict(
-            input_string='aaabbbcccdddeeefff',
+            input_string='abcdef'*3,
             expected_encoded_map={}),
     ]
 
@@ -207,8 +207,8 @@ if __name__ == '__main__':
         actual_encoded_map = huff.encoded_map
 
         print(f'input: {inp_str.__repr__()}')
-        result = actual_encoded_map == exp_encoded_map
-        col = Col.GREEN if result else Col.RED
+        result = 'PASS' if actual_encoded_map == exp_encoded_map else 'FAIL'
+        col = Col.GREEN if result == 'PASS' else Col.RED
         print(f'{col}{result}{Col.END}')
 
         print(huff.binary_tree)
