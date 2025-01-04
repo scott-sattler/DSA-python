@@ -58,3 +58,6 @@ if __name__ == '__main__':
     root_.right = Node(3)
     print(root_)
     print(serialize_preorder(root_))
+
+    # todo: test None etc
+    # todo: allowed characters?
