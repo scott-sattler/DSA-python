@@ -39,38 +39,16 @@ class Node:
 
     """
     overriding comparators simplifies Node usage within heapq operations
-    
-    notes:
-    frequency ties are broken via ASCII decimal value (alphanumerically lexicographically)
-    when compared to leaf-nodes, non-leaf (None) nodes are always considered the right child, or b'1' on a given level
-    non-leaf (None) node ties are arbitrarily resolved (handled via header information)
-    notice that, given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
-        n1 will appear _lower_ in the priority queue, thus closer to the root
+    frequency ties are handled arbitrarily
     """
     def __lt__(self, other):
-        # handles null (None) non-leaf nodes
-        # non-leaf (None) nodes are always greater than others (thus always rightmost children)
-        if not self.char:
-            return False
-        if not other.char:
-            return True
-        # priority queue ties are broken by inverting ascii value (see notes above)
         if self.freq == other.freq:
-            return ord(self.char) > ord(other.char)
-        # otherwise, sort by frequency
+            return False
         return self.freq < other.freq
 
     def __gt__(self, other):
-        # handles null (None) non-leaf nodes
-        # non-leaf (None) nodes are always greater than others (thus always rightmost children)
-        if not self.char:
-            return True
-        if not other.char:
-            return False
-        # priority queue ties are broken by inverting ascii value (see notes above)
         if self.freq == other.freq:
-            return ord(self.char) < ord(other.char)
-        # otherwise, sort by frequency
+            return False
         return self.freq > other.freq
 
 
