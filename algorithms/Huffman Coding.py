@@ -7,9 +7,10 @@ from dataclasses import dataclass
 #  (efficiently) implement proper encoding (single binary string)
 #  implement optimal serialized binary tree header or similar
 #  review tree construction (hence, code assignment)
+#  None node ties are arbitrary, and may be inconsistent without, e.g., a proper header
 
 '''
-reference
+references
 https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1176/assnFiles/assign6/huffman-encoding-supplement.pdf
 
 When we have choices among equally weighted nodes (such as in the first step 
@@ -22,6 +23,9 @@ Remember that it is essential that you use the same tree to do both encoding
 and decoding of your files. Since each Huffman tree creates a unique encoding 
 of a particular file, you need to ensure that your decoding algorithm generates 
 the exact same tree, so that you can get back the file.
+
+https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2012/388115265a456321c4a5d19dc9e05281_MIT6_046JS12_lec19.pdf
+
 '''
 
 
@@ -33,13 +37,13 @@ class Node:
     right: Node = None
 
     """
-    overriding comparators simplifies usage within heapq operations
-    frequency ties are broken via ASCII decimal value (alphanumerically lexicographically)
-    None nodes are always considered the right child, or b'1' on that level
+    overriding comparators simplifies Node usage within heapq operations
     
     notes:
-        given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
-            n1 will appear lower in the priority queue, thus closer to the root
+    frequency ties are broken via ASCII decimal value (alphanumerically lexicographically)
+    None nodes are always considered the right child, or b'1' on a given level
+    notice that, given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
+        n1 will appear lower in the priority queue, thus closer to the root
     """
     def __lt__(self, other):
         # None nodes are never less than others (thus always rightmost children)
@@ -47,18 +51,19 @@ class Node:
             return False
         if not other.char:
             return True
-        # priority queue ties are broken by inverting ascii value (see above)
+        # priority queue ties are broken by inverting ascii value (see notes above)
         if self.freq == other.freq:
             return ord(self.char) > ord(other.char)
         return self.freq < other.freq
 
     def __gt__(self, other):
+        # handles null (None) non-leaf nodes
         # None nodes are always greater than others (thus always rightmost children)
         if not self.char:
             return True
         if not other.char:
             return False
-        # priority queue ties are broken by inverting ascii value (see above)
+        # priority queue ties are broken by inverting ascii value (see notes above)
         if self.freq == other.freq:
             return ord(self.char) < ord(other.char)
         # otherwise, sort by frequency
@@ -182,6 +187,9 @@ if __name__ == '__main__':
         dict(
             input_string='z',
             expected_encoded_map={'z': b'0'}),
+        dict(
+            input_string='aaabbbcccdddeeefff',
+            expected_encoded_map={}),
     ]
 
     for test in tests:
