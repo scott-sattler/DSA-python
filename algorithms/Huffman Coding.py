@@ -2,11 +2,27 @@ from __future__ import annotations
 import heapq
 from dataclasses import dataclass
 
-
 # todo:
-#  implement canonical Huffman code implementation
-#  fix tree construction (hence, code assignment)
-#  be more explict
+#  implement canonical Huffman code
+#  (efficiently) implement proper encoding (single binary string)
+#  implement optimal serialized binary tree header or similar
+#  review tree construction (hence, code assignment)
+
+'''
+reference
+https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1176/assnFiles/assign6/huffman-encoding-supplement.pdf
+
+When we have choices among equally weighted nodes (such as in the first step 
+choosing among the four characters with weight 1) picking a different two will 
+result in a different, but still optimal, encoding. Similarly when combining 
+two subtrees, it is as equally valid to put one of the trees on the left and 
+the other on the right as it is to reverse them.
+
+Remember that it is essential that you use the same tree to do both encoding 
+and decoding of your files. Since each Huffman tree creates a unique encoding 
+of a particular file, you need to ensure that your decoding algorithm generates 
+the exact same tree, so that you can get back the file.
+'''
 
 
 @dataclass
@@ -25,44 +41,28 @@ class Node:
         given, n1 = 'a' and n2 = 'b', where n1.freq == n2.freq:
             n1 will appear lower in the priority queue, thus closer to the root
     """
-    # def __lt__(self, other):
-    #     # None nodes are never less than others (thus always rightmost children)
-    #     if not self.char:
-    #         return False
-    #     if not other.char:
-    #         return True
-    #
-    #     # priority queue ties are broken by inverting ascii value
-    #     # level comparisons must be corrected on each level during tree construction
-    #     if self.freq == other.freq:
-    #         return ord(self.char) > ord(other.char)
-    #
-    #     # otherwise, sort by frequency
-    #     return self.freq < other.freq
-    #
-    # def __gt__(self, other):
-    #     # None nodes are always greater than others (thus always rightmost children)
-    #     if not self.char:
-    #         return True
-    #     if not other.char:
-    #         return False
-    #
-    #     # priority queue ties are broken by inverting ascii value
-    #     # level comparisons must be corrected on each level during tree construction
-    #     if self.freq == other.freq:
-    #         return ord(self.char) < ord(other.char)
-    #
-    #     # otherwise, sort by frequency
-    #     return self.freq > other.freq
-    #
-    # def __eq__(self, other):
-    #     return self.freq == other.freq
-    #
-    # def __bool__(self):
-    #     print('bool(self.char)', bool(self.char), self)
-    #     if self is not None:
-    #         return bool(self.char)
-    #     return False
+    def __lt__(self, other):
+        # None nodes are never less than others (thus always rightmost children)
+        if not self.char:
+            return False
+        if not other.char:
+            return True
+        # priority queue ties are broken by inverting ascii value (see above)
+        if self.freq == other.freq:
+            return ord(self.char) > ord(other.char)
+        return self.freq < other.freq
+
+    def __gt__(self, other):
+        # None nodes are always greater than others (thus always rightmost children)
+        if not self.char:
+            return True
+        if not other.char:
+            return False
+        # priority queue ties are broken by inverting ascii value (see above)
+        if self.freq == other.freq:
+            return ord(self.char) < ord(other.char)
+        # otherwise, sort by frequency
+        return self.freq > other.freq
 
 
 class Huffman:
@@ -81,31 +81,21 @@ class Huffman:
             if char not in freq_map:
                 freq_map[char] = 0
             freq_map[char] += 1
-        self.frequency_map = freq_map
 
-        priority_queue = [(f'{freq}{char}', Node(char, freq)) for char, freq in freq_map.items()]
+        priority_queue = [Node(char, freq) for char, freq in freq_map.items()]
         heapq.heapify(priority_queue)
-        print(priority_queue)
 
         # build binary tree (bottom up)
         while len(priority_queue) > 1:
-            left = heapq.heappop(priority_queue)[1]
-            right = heapq.heappop(priority_queue)[1]
-
-            # level correction hack (see comparator comments)
-            if left.char is not None and right.char is not None:
-                if left.freq < right.freq:
-                    print('1: left.char', left.char, 'right.char', right.char)
-                    left, right = right, left
-                if left.freq == right.freq and left.char < right.char:
-                    print('2: left.char', left.char, 'right.char', right.char)
-                    left, right = right, left
-
-
+            left = heapq.heappop(priority_queue)
+            right = heapq.heappop(priority_queue)
             parent = Node(None, left.freq + right.freq, left, right)
-            heapq.heappush(priority_queue, (f'{left.freq + right.freq}', parent))
+            heapq.heappush(priority_queue, parent)
 
-        self.binary_tree = priority_queue[0][1]
+        self.frequency_map = freq_map
+        self.binary_tree = priority_queue[0]
+        if len(self.frequency_map) == 1:
+            self.binary_tree = Node(None, self.binary_tree.freq, self.binary_tree)
         return self.binary_tree
 
     # O(n)
@@ -126,12 +116,6 @@ class Huffman:
         self.encoded_map = encoded_map
 
         encoded = [encoded_map[symbol] for symbol in self.unencoded_symbols]
-
-        # # todo: fix - broken
-        # number = 0
-        # for bits in encoded:
-        #     number = (2 * number) + int(bits)
-        # print(number, bin(number))
         return encoded
 
     # O(n)
@@ -140,7 +124,7 @@ class Huffman:
             raise Exception('Encoding map not yet constructed.')
         return {v: k for k, v in self.encoded_map.items()}
 
-    def decode(self):
+    def decode(self, ):
         ...
 
     # O(n)
@@ -160,6 +144,12 @@ class Huffman:
 
 
 if __name__ == '__main__':
+    class Col:
+        BLUE = '\033[94m'
+        GREEN = '\033[92m'
+        RED = '\033[91m'
+        END = '\033[0m'
+
     # noinspection SpellCheckingInspection
     tests = [
         # dict(
@@ -168,27 +158,31 @@ if __name__ == '__main__':
         # dict(
         #     input_string='A_DEAD_DAD_CEDED_A_BAD_BABE_A_BEADED_ABACA_BED',
         #     expected_encoded_map={}),
-        # dict(
-        #     input_string="abbccc",
-        #     expected_encoded_map={'c': b'0', 'b': b'10', 'a': b'11'}),
-        # dict(
-        #     input_string="abbcc",
-        #     expected_encoded_map={'b': b'0', 'c': b'10', 'a': b'11'}),
+        dict(
+            input_string="abbccc",
+            expected_encoded_map={}),
+        dict(
+            input_string="abbcc",
+            expected_encoded_map={}),
         dict(
             input_string="fdb",
-            expected_encoded_map={'b': b'0', 'd': b'10', 'f': b'11'}),
-        # dict(
-        #     input_string='a' * 10 + 'b' + 'c' * 15 + 'd' * 7,
-        #     expected_encoded_map={'b': b'00', 'd': b'01', 'a': b'10', 'c': b'11'}),
-        # dict(
-        #     input_string='abc',
-        #     expected_encoded_map={'a': b'0', 'b': b'10', 'c': b'11'}),
-        # dict(
-        #     input_string='abcdef',
-        #     expected_encoded_map={}),
+            expected_encoded_map={}),
+        dict(
+            input_string='a' * 10 + 'b' + 'c' * 15 + 'd' * 7,
+            expected_encoded_map={}),
+        dict(
+            input_string='abc',
+            expected_encoded_map={}),
+        dict(
+            input_string='abcdef',
+            expected_encoded_map={}),
+        dict(
+            input_string='aaa',
+            expected_encoded_map={'a': b'0'}),
+        dict(
+            input_string='z',
+            expected_encoded_map={'z': b'0'}),
     ]
-
-    # inp_str = "My friend loves dragons. Dragons are friends. Friends are for food, dragons, are dragon."
 
     for test in tests:
         inp_str = test['input_string']
@@ -197,19 +191,20 @@ if __name__ == '__main__':
         huff = Huffman(inp_str)
         huff.construct()
         encoded_data = huff.encode()
-        # print(huff.binary_tree)
-
-        # prefix_codes_ = huff.prefix_codes()
-        # print('prefix_codes_', prefix_codes_)
-
-        # decoded_data = huff.decode_with_prefix_map(encoded_data, prefix_codes_)
-        # print('decoded_data', decoded_data)
-
-        # print(huff.calculate_efficiency())
-
+        prefix_codes_ = huff.prefix_codes()
+        decoded_data = huff.decode_with_prefix_map(encoded_data, prefix_codes_)
         actual_encoded_map = huff.encoded_map
-        print(actual_encoded_map == exp_encoded_map)
-        print('exp_encoded_map', exp_encoded_map)
-        print('huff.encoded_map', huff.encoded_map)
 
-        print('huff.frequency_map', huff.frequency_map)
+        print(f'input: {inp_str.__repr__()}')
+        result = actual_encoded_map == exp_encoded_map
+        col = Col.GREEN if result else Col.RED
+        print(f'{col}{result}{Col.END}')
+
+        print(huff.binary_tree)
+        # print('huff.calculate_efficiency()', huff.calculate_efficiency())
+        print(f'prefix_codes_: {prefix_codes_}')
+        print(f'decoded_data: {decoded_data}')
+        print(f'exp_encoded_map: {exp_encoded_map}')
+        print(f'huff.encoded_map: {huff.encoded_map}')
+        print(f'huff.frequency_map: {huff.frequency_map}')
+        print()
