@@ -22,13 +22,11 @@ def serialize_preorder(root: Node) -> str:
     def _serialize(node: Node, nodes: list[int], data: list[any]):
         if not node:
             return
-
         if node.left or node.right:
             nodes.append(0)
         else:
             nodes.append(1)
         data.append(node.data)
-
         _serialize(node.left, nodes, data)
         _serialize(node.right, nodes, data)
 
