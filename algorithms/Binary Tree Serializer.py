@@ -18,18 +18,21 @@ class Node:
     right: Node = None
 
 
-def serialize_preorder(root: Node):
+def serialize_preorder(root: Node) -> str:
     def _serialize(node: Node, nodes: list[int], data: list[any]):
         if not node:
             return
+
         if node.left or node.right:
             nodes.append(0)
         else:
             nodes.append(1)
         data.append(node.data)
+
         _serialize(node.left, nodes, data)
         _serialize(node.right, nodes, data)
 
+        # todo: time complexity issue
         return ''.join(
             e.__repr__() if type(e) is str
             else str(e)
