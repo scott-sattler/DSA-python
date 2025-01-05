@@ -1,8 +1,9 @@
 # Data Structures and Algorithms in Python 3.10 (or later)
+## Recent Coding Examples (Jan 2024)
+[Huffman coding](https://github.com/scott-sattler/DSA-python/blob/main/algorithms/huffman_coding.py) <br>
+[binary tree serialization](https://github.com/scott-sattler/DSA-python/blob/main/algorithms/binary_tree_serializer.py)
 
-[most active LeetCode directory](https://github.com/scott-sattler/coachable/tree/main/LC%20Mock) <br>
-
-# LeetCode File Format
+## LeetCode File Format
 
     """
     copy of problem
@@ -26,8 +27,9 @@
     
     call_to_testing()
 
+[most active LeetCode directory](https://github.com/scott-sattler/coachable/tree/main/LC%20Mock) <br>
 
-# TODO
+## TODO
 - fix file naming
 - consolidate/merge DSA from elsewhere
 - create separate testing framework
