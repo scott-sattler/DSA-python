@@ -9,6 +9,7 @@ from dataclasses import dataclass
 #  review tree construction (hence, code assignment)
 #  None node ties are arbitrary, and may be inconsistent without, e.g., a proper header
 #  figure out how to best implement expected test results
+#  consider: mutate or return, not both
 
 '''
 references
