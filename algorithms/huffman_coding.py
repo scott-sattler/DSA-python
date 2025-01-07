@@ -112,7 +112,7 @@ class Huffman:
             raise Exception('Encoding map not yet constructed.')
         return {v: k for k, v in self.encoded_map.items()}
 
-    def decode(self, ):
+    def decode_canonical(self):
         ...
 
     # O(n)
