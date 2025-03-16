@@ -49,7 +49,10 @@ or distance of 1?
 
 '''
 
-def find_index(array: list, lo, hi):
+# time: O(log n)
+# space: O(log n) (recursive call stack)
+def find_index_rec(array: list, lo, hi):
+    """ finds zero index of rotated, sorted array """
     if len(array) < 2:
         return 0
 
@@ -67,8 +70,37 @@ def find_index(array: list, lo, hi):
     else:  # array[lo] > array[mid]
         lo = mid
 
-    return find_index(array, lo, hi)
+    return find_index_rec(array, lo, hi)
 
+
+# time: O(log n)
+# space: O(1) auxiliary space
+def find_index_iter(array: list, _, __):
+    """ finds zero index of rotated, sorted array """
+    if len(array) < 2:
+        return 0
+
+    lo = 0
+    hi = len(array) - 1
+
+    while (hi - lo) > 2:
+        mid = lo + (hi - lo) // 2
+
+        if array[mid] < array[hi]:
+            hi = mid
+        else:  # array[lo] > array[mid]
+            lo = mid
+
+    if array[lo+1] > array[hi]:
+        return hi
+    if array[lo] < array[lo+1]:
+        return lo
+    return lo+1
+
+
+
+# find_index = find_index_rec
+find_index = find_index_iter
 
 def test_min():
     test_case = [1]
