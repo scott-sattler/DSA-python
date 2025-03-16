@@ -64,6 +64,8 @@ def remove_rotation(array: list, zero_index):
     right = len(array) - 1
     while i >= 0:
         array[i], array[right] = array[right], array[i]
+        i -= 1
+        right -= 1
 
     return array
 
