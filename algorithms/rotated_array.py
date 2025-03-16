@@ -47,26 +47,18 @@ def find_index_iter(array: list, _, __):
     return lo+1
 
 
-'''
-4 5 6 1 2 3
-4 5 3 1 2 6
-4 2 3 1 5 6
-
-swap zero_index - 1 with len - 1
-decrementing to zero
-O(n) - optimal
-'''
-
 # time: O(n)
 # space: O(1)
 def remove_rotation(array: list, zero_index):
-    i = zero_index - 1
-    right = len(array) - 1
-    while i >= 0:
-        array[i], array[right] = array[right], array[i]
-        i -= 1
-        right -= 1
+    if zero_index == 0:
+        return array
 
+    i = 0
+    j = zero_index
+    while j < len(array):
+        array[i], array[j] = array[j], array[i]
+        i += 1
+        j += 1
     return array
 
 
