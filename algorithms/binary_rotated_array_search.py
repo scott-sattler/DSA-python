@@ -55,10 +55,11 @@ def remove_rotation(array: list, zero_index):
 
     i = 0
     j = zero_index
-    while j < len(array):
+    while i < j:
         array[i], array[j] = array[j], array[i]
         i += 1
-        j += 1
+        if j < len(array) - 1:
+            j += 1
     return array
 
 # todo: write tests for remove_rotation
