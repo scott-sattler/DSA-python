@@ -1,7 +1,7 @@
 # time: O(log n)
 # space: O(log n) (recursive call stack)
 def find_index_rec(array: list, lo, hi):
-    """ finds zero index of rotated, sorted array """
+    """ finds zero index of unique valued, rotated, sorted array """
     if len(array) < 2:
         return 0
 
@@ -25,7 +25,7 @@ def find_index_rec(array: list, lo, hi):
 # time: O(log n)
 # space: O(1) auxiliary space
 def find_index_iter(array: list):
-    """ finds zero index of rotated, sorted array """
+    """ finds zero index of unique valued, rotated, sorted array """
     if len(array) < 2:
         return 0
 
