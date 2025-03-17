@@ -50,9 +50,6 @@ def find_index_iter(array: list):
 # time: O(n)
 # space: O(1)
 def remove_rotation(array: list, zero_index):
-    if zero_index == 0:
-        return array
-
     i = 0
     j = zero_index
     while i < j:
