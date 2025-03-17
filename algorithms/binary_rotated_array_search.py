@@ -101,13 +101,15 @@ test_cases = {
 test_cases = [(k, v) for k, v in test_cases.items()]
 
 @pytest.mark.parametrize("input_array, expected_value", test_cases)
-def test_rec_rotated_index_search(input_array: list, expected_value: int):
+def test_rec_rotated_index_search(input_array: tuple, expected_value: int):
     test_fn = find_index_rec
+    input_array = list(input_array)
     rot_index = test_fn(input_array, 0, len(input_array) - 1)
     assert rot_index == expected_value
 
 @pytest.mark.parametrize("input_array, expected_value", test_cases)
-def test_iter_rotated_index_search(input_array: list, expected_value: int):
+def test_iter_rotated_index_search(input_array: tuple, expected_value: int):
     test_fn = find_index_iter
+    input_array = list(input_array)
     rot_index = test_fn(input_array)
     assert rot_index == expected_value
