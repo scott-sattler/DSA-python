@@ -112,3 +112,11 @@ def test_iter_rotated_index_search(input_array: tuple, expected_value: int):
     input_array = list(input_array)
     rot_index = test_fn(input_array)
     assert rot_index == expected_value
+
+@pytest.mark.parametrize("input_array, zero_index", test_cases)
+def test_remove_rotation(input_array: tuple, zero_index: int):
+    test_fn = remove_rotation
+    input_array = list(input_array)
+    expected_output = sorted(input_array)
+    actual_output = test_fn(input_array, zero_index)
+    assert actual_output == expected_output
