@@ -94,7 +94,7 @@ test_cases = {
     (-1, -6 -5, -4, -3, -2): 1,
     (-5, -4, -3, -2, -1, -6): 5,
 }
-test_cases = [(k, v) for k, v in test_cases.items()]
+test_cases = list(test_cases.items())
 
 @pytest.mark.parametrize("input_array, expected_value", test_cases)
 def test_rec_rotated_index_search(input_array: tuple, expected_value: int):
