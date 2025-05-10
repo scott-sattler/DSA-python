@@ -16,7 +16,7 @@ def find_index_rec(array: list, lo, hi):
 
     if array[mid] < array[hi]:
         hi = mid
-    else:  # array[lo] > array[mid]
+    else:  # array[lo] >= array[mid]
         lo = mid
 
     return find_index_rec(array, lo, hi)
@@ -37,7 +37,7 @@ def find_index_iter(array: list):
 
         if array[mid] < array[hi]:
             hi = mid
-        else:  # array[lo] > array[mid]
+        else:  # array[lo] >= array[mid]
             lo = mid
 
     if array[lo+1] > array[hi]:
