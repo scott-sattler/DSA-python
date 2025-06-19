@@ -5,7 +5,7 @@ data types are not preserved (not encoded)
 
 this abomination was adapted from an abandoned implementation of a lossy binary
 tree serializer that was limited to being used for Huffman coding (therefore,
-not paralytically interesting, given superior Huffman header implementations)
+not particularly interesting, given superior Huffman header implementations)
 """
 
 from __future__ import annotations
