@@ -10,14 +10,12 @@ class TreeNode:
 class Solution:
     # noinspection all
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def _invertTree(_root: Optional[TreeNode]) -> Optional[TreeNode]:
-            if not _root:
-                return None
+        if not root:
+            return None
 
-            _root.left, _root.right = _root.right, _root.left
+        root.left, root.right = root.right, root.left
 
-            _invertTree(_root.left)
-            _invertTree(_root.right)
+        self.invertTree(root.left)
+        self.invertTree(root.right)
 
-        _invertTree(root)
         return root
